@@ -1,0 +1,158 @@
+
+#resonance-training{width:100%;font-family:"Segoe UI","Microsoft YaHei",sans-serif;color-scheme:dark;--res-bg:#030e16;--res-text:#e1eff8;--res-muted:#8aa5bd;--res-line:#1b374b;--res-teal:#94eeef;--res-gold:#ffcf8e;--res-blue:#91caff;}
+#resonance-training *{box-sizing:border-box}
+#resonance-training [hidden]{display:none!important}
+#resonance-training button,#resonance-training input{font:inherit}
+#resonance-training button{color:inherit}
+#resonance-training .res-app{background:radial-gradient(ellipse at 45% 39%,#091f2b 0%,#030e16 65%);color:var(--res-text);border-radius:14px;overflow:hidden;width:100%}
+#resonance-training .res-header{display:flex;align-items:center;gap:20px;padding:17px 18px 12px;min-width:0}
+#resonance-training .res-brand{display:flex;align-items:center;white-space:nowrap;gap:9px}
+#resonance-training .res-brand strong{font-family:"Songti SC",SimSun,serif;font-size:26px;font-weight:500;letter-spacing:2px;color:#f1f2ef}
+#resonance-training .brand-glyph{font-family:Georgia,serif;color:#86ceff;font-size:40px;line-height:30px;width:31px}
+#resonance-training .brand-sub{font-size:12px;color:var(--res-muted);padding-left:13px;margin-left:4px;border-left:1px solid #5d7a8d;letter-spacing:1px}
+#resonance-training .res-steps{list-style:none;display:flex;gap:12px;align-items:center;justify-content:center;padding:0;margin:0 auto;font-size:12px;color:var(--res-muted)}
+#resonance-training .res-steps li{display:flex;align-items:center;gap:6px;white-space:nowrap}
+#resonance-training .res-steps li:not(:last-child)::after{content:"";display:block;width:19px;height:1px;background:#486b83;margin-left:4px}
+#resonance-training .res-steps b{font-weight:400;display:grid;place-items:center;width:20px;height:20px;border:1px solid #7691ac;border-radius:50%;font-size:12px}
+#resonance-training .res-steps .active{color:#9edbff}
+#resonance-training .res-steps .active b{background:#a0d9ff;color:#082035;box-shadow:0 0 16px #399fff66;border-color:#b9e5ff}
+#resonance-training .res-badge{padding:6px 10px;font-size:11px;color:#a7d6f9;border:1px solid #285d81;box-shadow:inset 0 0 16px #24567926;border-radius:7px;white-space:nowrap;letter-spacing:.5px}
+#resonance-training .res-main{display:grid;grid-template-columns:minmax(0,1fr) 254px;gap:0;min-width:0}
+#resonance-training .res-stage{position:relative;min-width:0;height:440px;overflow:hidden}
+#resonance-training .res-canvas{display:block;width:100%;height:100%}
+#resonance-training .res-callouts{position:absolute;inset:0;pointer-events:none}
+#resonance-training .res-callout{position:absolute;left:75%;right:6px;min-width:0;font-size:12px;line-height:1.5}
+#resonance-training .res-callout strong{font-size:13px;letter-spacing:.3px;white-space:nowrap;font-weight:500}
+#resonance-training .res-callout small{display:block;color:#9ab6cc;font-size:12px;margin-top:3px;line-height:1.65}
+#resonance-training .res-callout.other{top:17%;color:var(--res-teal)}
+#resonance-training .res-callout.drums{top:39%;color:var(--res-gold)}
+#resonance-training .res-callout.bass{top:62%;color:var(--res-blue)}
+#resonance-training .callout-line{position:absolute;right:calc(100% + 8px);top:10px;width:40px;height:1px;background:currentColor;opacity:.7}
+#resonance-training .callout-line::before{content:"";display:block;position:absolute;right:100%;width:30px;height:1px;background:currentColor;transform:rotate(-25deg);transform-origin:right center}
+#resonance-training .callout-line::after{content:"";position:absolute;right:calc(100% + 27px);top:12px;width:4px;height:4px;border-radius:50%;background:currentColor;box-shadow:0 0 7px currentColor}
+#resonance-training .bass .callout-line{width:86px}
+#resonance-training .bass .callout-line::before{width:35px;transform:rotate(14deg)}
+#resonance-training .bass .callout-line::after{right:calc(100% + 33px);top:-10px}
+#resonance-training .res-panel{border:1px solid #254255;border-radius:9px;margin:0 16px 10px 0;padding:17px 18px 13px;background:linear-gradient(155deg,#10253177,#040d1577);display:flex;flex-direction:column;min-width:0}
+#resonance-training .panel-label{font-size:12px;color:#aec8dc;letter-spacing:.4px}
+#resonance-training .score-section .panel-label{display:flex;align-items:center;justify-content:space-between}
+#resonance-training .panel-label>span{font-size:11px;color:#7593a8}
+#resonance-training .score-composition{height:99px;position:relative;overflow:hidden}
+#resonance-training .score{position:relative;z-index:1;font-size:85px;line-height:1.15;letter-spacing:-4px;font-weight:400;font-variant-numeric:tabular-nums;color:#ffe0b6;text-shadow:0 0 18px #ffcc7830}
+#resonance-training .score-composition svg{position:absolute;right:-6px;bottom:5px;width:135px;height:63px}
+#resonance-training .time-section{border-top:1px solid #2b4657;padding:13px 0;display:flex;align-items:center;justify-content:space-between}
+#resonance-training .remaining{display:block;font-size:31px;line-height:1.25;font-weight:400;letter-spacing:2px;font-variant-numeric:tabular-nums;margin-top:5px}
+#resonance-training .time-ring{width:46px;height:46px;filter:drop-shadow(0 0 3px #79baff50)}
+#resonance-training .unlimited-label{font-size:26px;line-height:1.4;letter-spacing:3px}
+#resonance-training .continuous-symbol{font-size:43px;color:#88cdff;font-family:Georgia,serif;font-weight:400;line-height:1;text-shadow:0 0 13px #79baff40}
+#resonance-training .signal-section{border-top:1px solid #2b4657;border-bottom:1px solid #2b4657;padding:13px 0;display:flex;align-items:center;justify-content:space-between;gap:4px}
+#resonance-training .signal-status{display:flex;gap:6px;align-items:center;font-size:11px;color:#7fe9de;white-space:nowrap}
+#resonance-training .signal-bars{display:flex;height:20px;gap:2px;align-items:center}
+#resonance-training .signal-bars b{display:block;width:2px;height:8px;background:currentColor;border-radius:2px}
+#resonance-training .signal-bars b:nth-child(2),#resonance-training .signal-bars b:nth-child(4){height:13px}
+#resonance-training .signal-bars b:nth-child(3){height:19px}
+#resonance-training .res-tracks{padding-top:13px;margin-bottom:15px}
+#resonance-training .res-tracks>.panel-label{margin-bottom:11px}
+#resonance-training .track-row{display:grid;grid-template-columns:82px minmax(0,1fr) 22px;gap:9px;align-items:center;margin-top:10px;font-size:11px;white-space:nowrap}
+#resonance-training .track-row.other{--track-color:#9df5f3;color:#b2eaff}
+#resonance-training .track-row.drums{--track-color:#ffdb9d;color:#b2dcf8}
+#resonance-training .track-row.bass{--track-color:#89caff;color:#b2dcf8}
+#resonance-training .level-meter{display:flex;gap:5px;justify-content:space-between;min-width:0}
+#resonance-training .level-meter i{flex:1;min-width:0;height:15px;border-radius:4px;background:#294052;transition:background .25s,box-shadow .25s}
+#resonance-training .level-meter i.on{background:var(--track-color);box-shadow:0 0 9px color-mix(in srgb,var(--track-color) 55%,transparent),inset 0 0 4px #ffffff66}
+#resonance-training .level-number{font-size:11px;color:#a6bed5;font-variant-numeric:tabular-nums}
+#resonance-training .pause-button{display:flex;justify-content:center;gap:9px;align-items:center;width:100%;padding:7px 15px;margin-top:auto;font-size:14px;border:1px solid #9dcfff;border-radius:30px;background:linear-gradient(#24517b,#15334f);box-shadow:inset 0 0 10px #558bd144,0 0 12px #3e92ff20;min-height:35px;letter-spacing:2px}
+#resonance-training .pause-icon{font-size:18px;line-height:1}
+#resonance-training .preset-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;border-top:1px solid #173547;padding:7px 12px 0}
+#resonance-training .preset-card{border:1px solid #1d3e52;border-radius:9px;background:#06131ba6;position:relative;min-width:0;min-height:145px;text-align:left;overflow:hidden;padding:17px 17px 27px;transition:border-color .3s,background .3s}
+#resonance-training .preset-card:hover,#resonance-training .preset-card[aria-pressed="true"]{border-color:#5f93b4;background:#0d202c}
+#resonance-training .preset-copy{position:relative;display:block;z-index:1;width:58%;pointer-events:none}
+#resonance-training .preset-copy strong{display:block;font-size:15px;font-weight:400;letter-spacing:.4px;white-space:nowrap}
+#resonance-training .preset-copy em{font-size:22px;font-style:normal;font-variant-numeric:tabular-nums;color:#b8dbfa}
+#resonance-training .preset-copy>span{display:block;font-size:11px;color:#a5bdd1;line-height:1.85;margin-top:7px}
+#resonance-training .preset-card canvas{position:absolute;right:-2%;top:5px;width:52%;height:125px;display:block;pointer-events:none;mask-image:linear-gradient(to right,transparent 0%,black 17%)}
+#resonance-training .preset-action{position:absolute;bottom:10px;left:18px;color:#6d97b7;font-size:11px;letter-spacing:.5px}
+#resonance-training .res-controls{display:flex;gap:15px;padding:17px 18px 8px;align-items:center;min-width:0;flex-wrap:wrap}
+#resonance-training .score-control{flex:1;min-width:140px}
+#resonance-training .volume-control{width:94px}
+#resonance-training .score-control label,#resonance-training .volume-control label{display:flex;justify-content:space-between;font-size:11px;color:#9db7c9;gap:10px;margin-bottom:3px}
+#resonance-training .slider-value{color:#d1eafb;font-variant-numeric:tabular-nums}
+#resonance-training input[type=range]{display:block;width:100%;height:18px;accent-color:#82caff;margin:0}
+#resonance-training .res-small-button{border:1px solid #2a4a60;background:#0b202e;border-radius:7px;padding:8px 11px;font-size:11px;white-space:nowrap;min-height:34px}
+#resonance-training .res-small-button[aria-pressed=true]{background:#b5d9f0;color:#0b2233;border-color:#b5d9f0}
+#resonance-training .audio-button{border-color:#5482a0}
+#resonance-training .res-footnote{padding:3px 18px 13px;display:flex;justify-content:space-between;gap:15px;font-size:11px;color:#7f9fb8}
+#resonance-training .signal-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:#03131a44}
+#resonance-training .signal-overlay strong{font-size:21px;font-weight:400;padding:12px 18px;background:#081d29cc;border:1px solid #4a6371;border-radius:9px}
+#resonance-training .signal-overlay span{font-size:12px;color:#b4cbd9}
+#resonance-training .a11y-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Desktop presentation frame; all controls remain available without a timer. */
+html{background:#020d16}
+body{margin:0;padding:18px;background:#020d16;color:#e1eff8}
+#resonance-training{max-width:1680px;margin:0 auto}
+#resonance-training .res-stage{height:clamp(440px,59vh,640px)}
+#resonance-training .res-app{border-radius:10px}
+#resonance-training button{cursor:pointer}
+#resonance-training button:disabled{cursor:wait;opacity:.65}
+#resonance-training input[type=range]{cursor:ew-resize}
+#resonance-training .res-controls{gap:18px}
+#resonance-training .program-control{width:165px;flex-shrink:0}
+#resonance-training .program-control label{display:block;color:#9db7c9;font-size:13px;margin-bottom:4px}
+#resonance-training .program-select{width:100%;min-height:39px;padding:7px 10px;border:1px solid #2a4a60;border-radius:7px;background:#0b202e;color:#e1eff8;font:inherit;font-size:13px;cursor:pointer;color-scheme:dark}
+#resonance-training .program-select:focus-visible{outline:2px solid #8bd9f8;outline-offset:3px}
+#resonance-training .program-select:disabled{opacity:.65;cursor:wait}
+#resonance-training .volume-control{display:block;width:110px}
+#resonance-training:fullscreen{max-width:none;width:100%;height:100%;padding:18px 24px;overflow:auto;background:#020d16}
+#resonance-training:fullscreen .res-app{max-width:1680px;margin:0 auto}
+@media(min-width:1200px){
+ #resonance-training .res-main{grid-template-columns:minmax(0,1fr) 300px}
+ #resonance-training .res-header{padding:22px 25px 17px;gap:25px}
+ #resonance-training .res-brand strong{font-size:33px}
+ #resonance-training .brand-glyph{font-size:49px;width:37px}
+ #resonance-training .brand-sub{font-size:14px}
+ #resonance-training .res-steps{font-size:14px;gap:17px}
+ #resonance-training .res-steps b{width:25px;height:25px;font-size:14px}
+ #resonance-training .res-steps li:not(:last-child)::after{width:26px}
+ #resonance-training .res-badge{font-size:13px;padding:7px 12px}
+ #resonance-training .res-panel{padding:24px 23px 20px;margin-right:18px}
+ #resonance-training .panel-label{font-size:14px}
+ #resonance-training .score-composition{height:122px}
+ #resonance-training .score{font-size:104px}
+ #resonance-training .score-composition svg{width:165px;height:72px}
+ #resonance-training .time-section{padding:19px 0}
+ #resonance-training .unlimited-label{font-size:32px;letter-spacing:3px}
+ #resonance-training .continuous-symbol{font-size:50px}
+ #resonance-training .signal-section{padding:20px 0}
+ #resonance-training .signal-status{font-size:13px}
+ #resonance-training .res-tracks{padding-top:20px;margin-bottom:20px}
+ #resonance-training .track-row{grid-template-columns:92px minmax(0,1fr) 25px;gap:10px;font-size:12px;margin-top:16px}
+ #resonance-training .level-meter i{height:20px;border-radius:5px}
+ #resonance-training .level-number{font-size:12px}
+ #resonance-training .pause-button{min-height:43px;font-size:16px}
+ #resonance-training .res-callout strong{font-size:15px}
+ #resonance-training .res-callout small{font-size:13px;line-height:1.9}
+ #resonance-training .callout-line{width:52px}
+ #resonance-training .bass .callout-line{width:112px}
+ #resonance-training .preset-grid{padding:10px 15px 0;gap:12px}
+ #resonance-training .preset-card{min-height:165px;padding:21px 20px 29px}
+ #resonance-training .preset-copy strong{font-size:19px}
+ #resonance-training .preset-copy em{font-size:27px}
+ #resonance-training .preset-copy>span{font-size:13px}
+ #resonance-training .preset-card canvas{height:155px;top:2px}
+ #resonance-training .preset-action{font-size:12px;left:21px}
+ #resonance-training .res-small-button{font-size:13px;min-height:39px;padding:8px 14px}
+ #resonance-training .score-control label,#resonance-training .volume-control label{font-size:13px}
+ #resonance-training .res-footnote{font-size:12px;padding-bottom:14px}
+}
+@media(min-width:1600px){
+ #resonance-training .res-main{grid-template-columns:minmax(0,1fr) 338px}
+ #resonance-training .res-panel{padding-left:28px;padding-right:28px}
+ #resonance-training .score-composition{height:139px}
+ #resonance-training .score{font-size:120px}
+ #resonance-training .track-row{grid-template-columns:106px minmax(0,1fr) 28px;font-size:13px}
+ #resonance-training .res-callout strong{font-size:17px}
+ #resonance-training .res-callout small{font-size:14px}
+}
+@media(max-width:940px){#resonance-training .brand-sub{display:none}#resonance-training .res-header{gap:13px}#resonance-training .res-steps{gap:8px}#resonance-training .res-steps li:not(:last-child)::after{width:12px}#resonance-training .res-main{grid-template-columns:minmax(0,1fr) 230px}#resonance-training .res-panel{padding-left:14px;padding-right:14px;margin-right:12px}#resonance-training .res-callout small{max-width:125px}#resonance-training .track-row{grid-template-columns:75px minmax(0,1fr) 18px;gap:6px}#resonance-training .level-meter{gap:4px}#resonance-training .res-callout{left:77%}#resonance-training .preset-card{padding-left:12px}#resonance-training .preset-copy strong{font-size:13px}#resonance-training .preset-copy em{font-size:19px}#resonance-training .preset-copy>span{font-size:11px}#resonance-training .preset-action{left:12px}}
+@media(max-width:760px){#resonance-training .res-header{flex-wrap:wrap;justify-content:space-between}#resonance-training .res-brand strong{font-size:23px}#resonance-training .res-steps{order:3;flex-basis:100%;justify-content:center;gap:18px;margin-top:4px}#resonance-training .res-steps li:not(:last-child)::after{width:26px}#resonance-training .res-main{grid-template-columns:minmax(0,1fr) 208px}#resonance-training .res-stage{height:420px}#resonance-training .res-callouts{display:flex;inset:auto 12px 15px;gap:12px;justify-content:center}#resonance-training .res-callout{position:static;white-space:nowrap}#resonance-training .res-callout strong{font-size:11px}#resonance-training .res-callout small,#resonance-training .callout-line{display:none}#resonance-training .res-panel{margin-top:10px;padding:13px 12px}#resonance-training .score{font-size:75px}#resonance-training .score-composition{height:88px}#resonance-training .track-row{grid-template-columns:69px minmax(0,1fr) 18px;gap:5px}#resonance-training .track-row>span{font-size:11px}#resonance-training .level-meter{gap:3px}#resonance-training .level-meter i{height:13px}#resonance-training .signal-bars{display:none}#resonance-training .preset-grid{gap:6px}#resonance-training .preset-card{height:180px;padding:12px;display:flex;align-items:flex-start}#resonance-training .preset-copy{width:100%}#resonance-training .preset-copy>span{display:none}#resonance-training .preset-card canvas{top:42px;width:100%;height:122px;right:0;mask-image:none}#resonance-training .preset-action{bottom:9px;font-size:11px}#resonance-training .res-controls{gap:10px}#resonance-training .volume-control{display:none}}
+@media(max-width:540px){#resonance-training .res-header{padding:13px 12px;gap:9px}#resonance-training .res-brand strong{font-size:20px;letter-spacing:1px}#resonance-training .brand-glyph{width:21px;font-size:30px}#resonance-training .res-badge{font-size:11px;padding:5px 6px}#resonance-training .res-steps{gap:10px;font-size:11px}#resonance-training .res-steps li:not(:last-child)::after{width:15px}#resonance-training .res-main{display:flex;flex-direction:column}#resonance-training .res-stage{height:355px}#resonance-training .res-panel{margin:0 12px 12px;display:grid;grid-template-columns:1fr 1fr;gap:0 15px;padding:13px}#resonance-training .score-section{grid-column:1;grid-row:1/3}#resonance-training .score{font-size:70px}#resonance-training .score-composition{height:83px}#resonance-training .score-composition svg{width:100px}#resonance-training .time-section{grid-column:2;grid-row:1;border:0;padding:0 0 8px}#resonance-training .remaining{font-size:25px}#resonance-training .time-ring{width:35px;height:35px}#resonance-training .signal-section{grid-column:2;grid-row:2;padding:8px 0;border-bottom:0;justify-content:flex-start}#resonance-training .signal-section>.panel-label{display:none}#resonance-training .res-tracks{grid-column:1/3;grid-row:3;padding-top:8px;margin-bottom:14px;border-top:1px solid #2b4657;display:flex;gap:12px}#resonance-training .res-tracks>.panel-label{display:none}#resonance-training .track-row{display:grid;grid-template-columns:1fr 20px;gap:6px;flex:1;min-width:0;margin-top:0}#resonance-training .track-row>span{grid-column:1/3;font-size:11px}#resonance-training .level-meter{gap:3px}#resonance-training .level-meter i{height:10px;border-radius:3px}#resonance-training .pause-button{grid-column:1/3;grid-row:4;min-height:40px}#resonance-training .preset-grid{padding:8px 12px 0;gap:6px}#resonance-training .preset-card{height:154px;min-height:0;padding:9px 5px}#resonance-training .preset-copy strong{font-size:11px;letter-spacing:0;white-space:normal}#resonance-training .preset-copy em{font-size:16px}#resonance-training .preset-card canvas{top:38px;height:97px}#resonance-training .preset-action{left:5px;right:5px;text-align:center;bottom:7px;font-size:11px}#resonance-training .res-controls{display:grid;grid-template-columns:repeat(3,1fr);padding:14px 12px 8px;gap:9px}#resonance-training .score-control{grid-column:1/4;width:100%;min-width:0}#resonance-training .res-small-button{padding:8px 6px;min-height:40px}#resonance-training .res-footnote{padding:3px 12px 13px;flex-wrap:wrap;gap:4px}#resonance-training .res-callouts{bottom:12px}#resonance-training .res-callout strong{font-size:11px}}

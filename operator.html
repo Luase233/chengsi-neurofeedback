@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN" data-view="operator">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>灵枢 · 澄思 — 工作人员工作台</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="session.css">
+<link rel="stylesheet" href="operator.css">
+<link rel="stylesheet" href="operator-workspace.css">
+<link rel="stylesheet" href="operator-signal.css">
+<script src="easy-going-profile.js" defer></script>
+<script src="audio-programs.js" defer></script>
+<script src="audio-engine.js" defer></script>
+<script src="silk-material.js" defer></script>
+<script src="renderer.js" defer></script>
+<script src="feedback-policy.js" defer></script>
+<script src="calibration-cues.js" defer></script>
+<script src="session-client.js" defer></script>
+<script src="operator-workspace.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div id="resonance-training">
+  <div class="res-app">
+    <header class="res-header">
+      <div class="res-brand"><span class="brand-glyph" aria-hidden="true">∿</span><strong>灵枢 · 澄思</strong><span class="brand-sub">工作人员工作台</span></div>
+      <div class="operator-header-status"><span class="operator-source-label">模拟全流程</span><span class="backend-status">正在连接本地服务…</span></div>
+    </header>
+    <div class="operator-workspace">
+      <nav class="operator-navigation" aria-label="工作台导航">
+        <button type="button" class="operator-workspace-home" data-workspace-view="session" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 4v16M9 10h11"/></svg>本次训练</button>
+        <div class="operator-nav-label">训练流程</div>
+        <ol class="res-steps" aria-label="训练流程">
+          <li class="active" aria-current="step"><button type="button" data-workspace-step="fit"><b>1</b><span>佩戴检查</span><i aria-hidden="true"></i></button></li>
+          <li><button type="button" data-workspace-step="baseline"><b>2</b><span>首次前测</span><i aria-hidden="true"></i></button></li>
+          <li><button type="button" data-workspace-step="training"><b>3</b><span>训练</span><i aria-hidden="true"></i></button></li>
+          <li><button type="button" data-workspace-step="results"><b>4</b><span>结果</span><i aria-hidden="true"></i></button></li>
+        </ol>
+        <div class="operator-nav-secondary">
+          <button type="button" data-workspace-view="history"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2zM5 16h14M9 8h6M9 11h5"/></svg>训练记录</button>
+          <button type="button" data-workspace-view="settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></svg>设置</button>
+        </div>
+        <div class="operator-nav-foot"><span>当前被试</span><strong class="operator-participant-label">尚未开始</strong></div>
+      </nav>
+      <main class="res-main">
+        <header class="operator-stage-header">
+          <div class="operator-stage-title"><span class="operator-eyebrow">本次训练</span><h1>佩戴检查</h1></div>
+          <div class="operator-baseline-summary"><span class="operator-baseline-note">等待个人基线</span><button type="button" class="operator-view-baseline">查看前测<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 4 4 4-4 4"/></svg></button></div>
+        </header>
+        <div class="operator-guide-controls" aria-label="被试佩戴引导">
+          <button type="button" data-guide-step="headband" aria-pressed="false"><span>1</span>戴头环</button>
+          <button type="button" data-guide-step="headphones" aria-pressed="false"><span>2</span>戴耳机</button>
+          <button type="button" data-guide-step="ready" aria-pressed="false"><span>3</span>准备完成</button>
+        </div>
+        <div class="operator-wear-confirmation" aria-label="被试佩戴确认" aria-live="polite">
+          <div data-wear-confirmation="headband"><i aria-hidden="true"></i><span>头环佩戴</span><strong>待确认</strong></div>
+          <div data-wear-confirmation="headphones"><i aria-hidden="true"></i><span>耳机佩戴</span><strong>待确认</strong></div>
+          <small>被试人工确认，接触质量请查看右侧采集状态。</small>
+        </div>
+        <div class="res-stage" aria-label="当前训练环节">
+          <section class="operator-live-details" hidden>
+            <dl class="operator-metrics"></dl>
+            <section class="operator-live-observation" aria-label="实时专注与放松">
+              <div class="operator-chart-heading"><h2>专注与放松</h2><div class="operator-score-row">
+                <div class="score-section"><div class="panel-label">专注分 <span hidden>模拟</span></div><div class="score-composition"><span class="score">—</span></div></div>
+                <div class="meditation-section" hidden><span>放松分 <small hidden>辅助观察</small></span><strong class="meditation-score">—</strong></div>
+              </div></div>
+              <div class="operator-live-chart" aria-label="专注分与放松分实时曲线"></div>
+              <div class="score-caption">等待有效训练数据</div>
+            </section>
+            <section class="res-tracks" aria-label="声音参与度"><div class="panel-label">声音参与度</div>
+              <div class="track-row other" data-track="0"><span>氛围 · OTHER</span><div class="level-meter"></div><small class="level-number">0/6</small></div>
+              <div class="track-row drums" data-track="1"><span>节奏 · DRUMS</span><div class="level-meter"></div><small class="level-number">0/6</small></div>
+              <div class="track-row bass" data-track="2"><span>低音 · BASS</span><div class="level-meter"></div><small class="level-number">0/6</small></div>
+            </section>
+            <details class="operator-band-details"><summary>频带功率与采集信息</summary><div class="operator-bands"></div></details>
+          </section>
+          <section class="session-drawer" aria-live="polite" hidden></section>
+        </div>
+        <section class="session-live-strip" hidden>
+          <div><strong class="session-live-title">训练进行中</strong><span class="session-live-detail"></span></div>
+          <div class="session-live-actions"><button type="button" class="session-recalibrate res-small-button" hidden>重新佩戴 · 重新校准</button><button type="button" class="pause-button cursor-interaction"><span class="pause-icon" aria-hidden="true">Ⅱ</span><span class="pause-text">暂停</span></button><button type="button" class="session-finish res-small-button">结束本次训练</button></div>
+        </section>
+      </main>
+      <aside class="operator-sidebar" aria-label="设备与展示设置">
+        <section class="operator-device-section">
+          <div class="operator-section-heading"><h2>采集状态</h2><span class="signal-status"><i class="signal-bars" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></i><span>等待连接</span></span></div>
+          <div class="operator-device-meta">四通道脑电</div>
+          <section class="operator-contacts" aria-label="四路触点状态"></section>
+          <div class="signal-advice" hidden></div>
+        </section>
+        <section class="operator-display-controls" aria-label="被试显示窗口">
+          <div class="operator-section-heading"><h2>被试窗口</h2><span class="operator-display-status">未就绪</span></div>
+          <div class="operator-preview"><canvas width="480" height="240" role="img" aria-label="被试画面预览"></canvas></div>
+          <button type="button" class="operator-open-display session-primary">打开被试窗口<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M11 4h5v5M16 4l-7 7M8 5H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-3"/></svg></button>
+          <p>首次使用，请在被试窗口启用声音。</p>
+          <label class="operator-setting-field">训练画面<select class="operator-training-scene" aria-label="训练画面"><option value="lake-trees">双树湖景 · 轻微动态</option><option value="lake-house">湖畔小屋 · 轻微动态</option><option value="rings-still">完整三圈 · 静止</option><option value="rings-feedback">三圈 · 动态反馈</option></select></label>
+        </section>
+        <section class="res-controls" aria-label="声音设置">
+          <h2>声音</h2>
+          <div class="program-control"><label for="res-program">训练音频</label><select id="res-program" class="program-select cursor-interaction" aria-label="选择训练音频"></select></div>
+          <div class="volume-control"><label for="res-volume">音乐音量 <span class="volume-value">35%</span></label><input id="res-volume" class="volume-slider cursor-interaction" type="range" min="0" max="70" value="35"></div>
+          <button type="button" class="audio-button res-small-button cursor-interaction" aria-pressed="false">开启被试音乐</button>
+          <p class="operator-audio-help">声音仅从被试窗口播放</p>
+        </section>
+        <details class="operator-settings">
+          <summary>更多设置</summary>
+          <div class="session-toolbar"><label for="session-mode">采集模式</label><select id="session-mode" class="session-mode"><option value="synthetic">模拟全流程</option><option value="live">Muse 2 实机</option><option value="replay">记录回放</option></select></div>
+          <label class="operator-setting-field">开始与结束提示<select class="operator-cue-mode" aria-label="提示方式"><option value="voice">语音引导＋短提示音</option><option value="tone">仅短提示音</option></select></label>
+          <div class="operator-settings-actions"><button type="button" class="signal-button res-small-button cursor-interaction" aria-pressed="false">模拟断连</button><button type="button" class="fullscreen-button res-small-button cursor-interaction">全屏</button></div>
+          <a href="/" target="_blank" rel="noopener">单屏音乐试听 ↗</a>
+        </details>
+      </aside>
+    </div>
+    <div class="operator-legacy" hidden aria-hidden="true">
+      <span class="res-badge"></span><span class="session-phase"></span><span class="session-caption"></span>
+      <canvas class="res-canvas"></canvas>
+      <div class="calibration-visual-guide"><i></i><div><strong></strong><span></span></div></div>
+      <div class="res-callouts"><div class="res-callout other"><span class="callout-line"></span><strong></strong><small></small></div><div class="res-callout drums"><span class="callout-line"></span><strong></strong><small></small></div><div class="res-callout bass"><span class="callout-line"></span><strong></strong><small></small></div></div>
+      <div class="res-panel"><svg viewBox="0 0 220 80"><g class="score-wave"></g></svg><div class="time-section"><div class="panel-label"></div><strong class="remaining unlimited-label"></strong><span class="continuous-symbol"></span></div></div>
+      <div class="signal-overlay" hidden><strong>信号暂不可用</strong><span></span></div>
+      <div class="preset-grid"><button type="button" class="preset-card" data-score="24"><span class="preset-copy"><strong>24 · 氛围</strong><span>环境声</span></span><canvas aria-label="仅氛围层"></canvas><span class="preset-action">预览此状态</span></button><button type="button" class="preset-card" data-score="52"><span class="preset-copy"><strong>52 · 加入节奏</strong><span>节奏渐入</span></span><canvas aria-label="氛围与节奏层"></canvas><span class="preset-action">预览此状态</span></button><button type="button" class="preset-card" data-score="80"><span class="preset-copy"><strong>80 · 三轨共鸣</strong><span>完整声场</span></span><canvas aria-label="完整三轨声场"></canvas><span class="preset-action">预览此状态</span></button></div>
+      <div class="score-control"><label for="res-score">模拟反馈指数<output class="slider-value">72</output></label><input id="res-score" class="score-slider" type="range" min="0" max="100" step="1" value="72"></div>
+      <div class="res-footnote"><span class="mode-note"></span><span class="audio-note"></span></div>
+    </div>
+    <div class="a11y-status" aria-live="polite"></div>
+  </div>
+</div>
+<script type="application/json" id="resonance-texture-data">"assets/silk-material.webp"</script>
+</body>
+</html>

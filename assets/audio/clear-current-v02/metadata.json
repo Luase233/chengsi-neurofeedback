@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "id": "clear-current-v02",
+  "title": "澄流 v02 · 柔和旋律",
+  "source": "Original Clear Current LMMS 1.2.2 arrangement",
+  "sourceProject": "13-MusicAssets/Clear-Current-v02/02_Clear_Current_Loop_v02.mmp",
+  "sourceProjectSha256": "9edc4a2c650660db40a566a596b0feb6113573c1ffd57b57828d97cc5c3ff16d",
+  "outputSampleRate": 44100,
+  "loopMode": "native",
+  "loopStartSeconds": 0,
+  "crossfadeSeconds": 0,
+  "headStartSeconds": 0,
+  "demoStartSeconds": 0,
+  "feedbackProfile": "easy-going-continuous-v2",
+  "beatGrid": {
+    "bpm": 84,
+    "offsetSeconds": 0,
+    "beatsPerBar": 4,
+    "loopBeats": 64,
+    "meterVerified": true,
+    "source": "Authored LMMS project tempo and 16-bar phrase"
+  },
+  "processing": {
+    "renderEngine": "installed LMMS 1.2.2",
+    "sourceCycles": 3,
+    "extractedCycle": 2,
+    "endpointCorrectionSeconds": 0.003,
+    "normalization": "none; preserve authored layer balance and master volume",
+    "encoding": "PCM signed 16-bit stereo, 44100 Hz"
+  },
+  "tracks": [
+    {
+      "id": "layer-1",
+      "file": "layer-1.wav",
+      "instruments": [
+        "01 L1 · 温暖电钢琴",
+        "02 L1 · 指弹贝斯"
+      ],
+      "channels": 2,
+      "sampleRate": 44100,
+      "frames": 2016000,
+      "duration": 45.714285714285715,
+      "rms": 0.06787770520050875,
+      "peak": 0.355438232421875,
+      "sha256": "26b63e77f61ce23e52d9e8cd8e731b95cd521106f95ad2ab4743a479faf6c0e1",
+      "bytes": 8064044,
+      "sourceMetrics": {
+        "rms": 0.0678777039525204,
+        "peak": 0.3554480969905853,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 1.1261654435656965e-06,
+        "adjacentStep99_9Percentile": 0.009601829041726953,
+        "seamWindowMaximumAdjacentStep": 0.00015615028678439558
+      },
+      "preparedMetrics": {
+        "rms": 0.06787770520050875,
+        "peak": 0.355438232421875,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.0,
+        "adjacentStep99_9Percentile": 0.009613037109375,
+        "seamWindowMaximumAdjacentStep": 0.000152587890625
+      }
+    },
+    {
+      "id": "layer-2",
+      "file": "layer-2.wav",
+      "instruments": [
+        "03 L2 · 弱音吉他",
+        "04 L2 · 轻底鼓",
+        "05 L2 · 边击",
+        "06 L2 · 沙槌"
+      ],
+      "channels": 2,
+      "sampleRate": 44100,
+      "frames": 2016000,
+      "duration": 45.714285714285715,
+      "rms": 0.02435419135329061,
+      "peak": 0.329498291015625,
+      "sha256": "8d3586ef125ac541c5ade40d4f38736262bf7159680ef223c8cb157f58256bc7",
+      "bytes": 8064044,
+      "sourceMetrics": {
+        "rms": 0.02435419403222831,
+        "peak": 0.32949498295783997,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 5.554848030442372e-07,
+        "adjacentStep99_9Percentile": 0.060591499460861106,
+        "seamWindowMaximumAdjacentStep": 0.0019125565886497498
+      },
+      "preparedMetrics": {
+        "rms": 0.02435419135329061,
+        "peak": 0.329498291015625,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.0,
+        "adjacentStep99_9Percentile": 0.06057748413087438,
+        "seamWindowMaximumAdjacentStep": 0.001922607421875
+      }
+    },
+    {
+      "id": "layer-3",
+      "file": "layer-3.wav",
+      "instruments": [
+        "07 L3 · 柔和颤音琴长句"
+      ],
+      "channels": 2,
+      "sampleRate": 44100,
+      "frames": 2016000,
+      "duration": 45.714285714285715,
+      "rms": 0.013704953505013516,
+      "peak": 0.072052001953125,
+      "sha256": "e1ffd9926a84e91b2872814b0db23510a2586d60e630a87e3f4b3dae2a61ff26",
+      "bytes": 8064044,
+      "sourceMetrics": {
+        "rms": 0.013704952797228963,
+        "peak": 0.07205776870250702,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 9.189132833853364e-05,
+        "adjacentStep99_9Percentile": 0.006116952881217025,
+        "seamWindowMaximumAdjacentStep": 0.00025259359972551465
+      },
+      "preparedMetrics": {
+        "rms": 0.013704953505013516,
+        "peak": 0.072052001953125,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.0,
+        "adjacentStep99_9Percentile": 0.006103515625,
+        "seamWindowMaximumAdjacentStep": 0.000274658203125
+      }
+    }
+  ],
+  "duration": 45.714285714285715,
+  "cycleDuration": 45.714285714285715,
+  "sourceDuration": 45.714285714285715,
+  "loopEndSeconds": 45.714285714285715,
+  "combinationChecks": [
+    {
+      "layers": [
+        1
+      ],
+      "rms": 0.06787770520050875,
+      "peak": 0.355438232421875,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.009613037109375,
+      "seamWindowMaximumAdjacentStep": 0.000152587890625
+    },
+    {
+      "layers": [
+        1,
+        2
+      ],
+      "rms": 0.07197354129379145,
+      "peak": 0.437347412109375,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.060516357421875,
+      "seamWindowMaximumAdjacentStep": 0.0018310546875
+    },
+    {
+      "layers": [
+        1,
+        2,
+        3
+      ],
+      "rms": 0.073448266976065,
+      "peak": 0.440643310546875,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.060516357421875,
+      "seamWindowMaximumAdjacentStep": 0.00177001953125
+    }
+  ],
+  "measurementNote": "PCM signal and looping checks; not a listening or attention-efficacy assessment."
+}

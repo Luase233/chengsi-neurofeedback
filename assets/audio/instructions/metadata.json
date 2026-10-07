@@ -1,0 +1,186 @@
+{
+  "version": 4,
+  "engine": "Alibaba DashScope TTS",
+  "model": "qwen3-tts-instruct-flash",
+  "voice": "Cherry",
+  "language": "Chinese",
+  "sampleRate": 24000,
+  "leadSeconds": 0.45,
+  "tailSeconds": 0.25,
+  "peakTarget": 0.28,
+  "style": "清晰自然的普通话，亲切轻柔的女声，像工作人员面对面说明。语速自然，吐字清楚，语调平稳，不过分抑扬，不拖长尾音。只朗读文本，不添加口头语、笑声、背景音乐或环境音。",
+  "sourceParts": [
+    {
+      "id": "closed-before-start",
+      "text": "接下来进行闭眼前测。下面先示范声音，请保持睁眼。当听到",
+      "sourceSha256": "e4b33e152364ad5af0b8d4ae2b76a5d035b4a179a202531c24c8dbf218802c1c",
+      "cacheFile": "459fa35a50f25fab3ef174381902c839d04f2a22a34c6a38a25825c5c1ac1ebd.wav"
+    },
+    {
+      "id": "closed-between",
+      "text": "后，请轻轻闭眼。当听到",
+      "sourceSha256": "7c6f89dc0b1c3be7865bf8d8a41bdd79027b34bcc3854b75d7440bbe997925d6",
+      "cacheFile": "170b8f0d1e304e59700e1bbe7b1ca0c2a05cb41d63055b1633b39edbe868e8d5.wav"
+    },
+    {
+      "id": "closed-after-complete",
+      "text": "后，请慢慢睁眼。声音示范结束，现在请准备好，我们正式开始。",
+      "sourceSha256": "746abdb3b349f40c1d8032b464317ead87f26ed49c47d51429580b3dfa039cf1",
+      "cacheFile": "c7a8ac80187e8f6667c9642be1911000c928e499e6dada71cc4f71eed09ea8ea.wav"
+    },
+    {
+      "id": "open-before-start",
+      "text": "接下来进行睁眼前测。下面先示范声音。当听到",
+      "sourceSha256": "0e6cbee8bcc15582848948be99fa04c19510de682db28bf8d74daeb9c542bbad",
+      "cacheFile": "796da3bc5750504ef146986553c264be50e3332e41c507399092aa468eb0b6cf.wav"
+    },
+    {
+      "id": "open-between",
+      "text": "后，请自然注视屏幕中央的圆环，正常眨眼。当听到",
+      "sourceSha256": "3403465da916415bcf6d04f33c0079d1ea049e0c616fed0f61c0331adb4db155",
+      "cacheFile": "4b33e8d85a2af077694a900c56d763b4e109efac35dfe6156717ab94b08e8fc3.wav"
+    },
+    {
+      "id": "open-after-complete",
+      "text": "后，请保持放松，等待工作人员安排。声音示范结束，现在准备开始。",
+      "sourceSha256": "40669c81aa90046fc482449a85bfd39f28e44de467f89dafe82d0bd6f5cecf33",
+      "cacheFile": "c7ea7d38dbd3884bde0abac1ba11f199ac23aeda7de3f5f5e6a6cb61fac14e4a.wav"
+    },
+    {
+      "id": "closed-complete",
+      "text": "本段前测已完成，请慢慢睁开眼睛。",
+      "sourceSha256": "6e30c1eca53023535c66ae7aa58d4cc689683fad3d1a8a74f3be247b7c52a9b4",
+      "cacheFile": "e727f8e45676dccfefa3112eabcafcd8e35023da0633e33949c7a78ad0642ae3.wav"
+    },
+    {
+      "id": "open-complete",
+      "text": "睁眼测试已经完成。请放松一下。",
+      "sourceSha256": "0371fef85a72ab1af5ec6b40bdb7612bf7a6574e316db1bf5c39e4fa6c92092a",
+      "cacheFile": "1d946d72fbb210844d6281712ee5f34777d014d3b72647749c4c4286404d1736.wav"
+    },
+    {
+      "id": "recovery",
+      "text": "本段前测已暂停，请慢慢睁开眼睛，等待工作人员。",
+      "sourceSha256": "a341c76b944f93be6fe82b22a7adb547bb9c7cb6184e916ad5f1fb0faa83ea26",
+      "cacheFile": "5085eddf4e965523618cf8dee4595d79ff9522e4664ac69075cc0baae2c9d9d3.wav"
+    },
+    {
+      "id": "training-wait",
+      "text": "接下来将进行专注训练。请保持舒适的坐姿，自然看向画面，等待工作人员开始。",
+      "sourceSha256": "07a563f49458b8a3356d2eef3f46814698e0b938f60ae9458bec785a080b3e50",
+      "cacheFile": "4b2ed5cf4067341063d387646f5cc5a403ed8ea903950ffeee968b6c784acdcc.wav"
+    },
+    {
+      "id": "training-start",
+      "text": "接下来开始本轮专注训练。请自然看向画面，正常眨眼，保持舒适的坐姿。准备好了，我们开始。",
+      "sourceSha256": "d8a1dc4f9f0af5caf3066f94a18da6889808ec69123d92da127f872db7fd2781",
+      "cacheFile": "06861ed2d51c3f5525479a6cfdd34c786894d9574f030bb368651ea04813daf6.wav"
+    },
+    {
+      "id": "training-round-complete",
+      "text": "这一轮训练已完成。请放松休息，下一轮开始前会再次提示。",
+      "sourceSha256": "3bcfbb5865d1e6dee12dd8aaf19c3e102a7e85d858bb4982d5ddf83fd3393c08",
+      "cacheFile": "a5172409b5ac556a31e6e2b5b2b5a1f71e993eb02ad9f29af5b1d6a01d3c01e7.wav"
+    },
+    {
+      "id": "training-day-complete",
+      "text": "今天的训练已完成。请放松休息。",
+      "sourceSha256": "3edeb8a602feb475fa4ba641ef593e4a2f842845ce0e3251ed8bb57fd3cc5e4f",
+      "cacheFile": "d35ca3a3f33f50618191ef0fe0d902e0baafa37dcae1787fb47c75563b76020f.wav"
+    }
+  ],
+  "demonstration": "spoken prefix -> original start -> action -> original complete -> action; formal start follows in player",
+  "instructions": [
+    {
+      "id": "closed-start",
+      "file": "closed-start.wav",
+      "duration": 21.13,
+      "sampleRate": 24000,
+      "channels": 1,
+      "sha256": "48830e375ec4a0b10a6d40a6d3c971214ad8b96c4ebdf775d0f7476f9568d0ef",
+      "text": "接下来进行闭眼前测。下面先示范声音，请保持睁眼。当听到 后，请轻轻闭眼。当听到 后，请慢慢睁眼。声音示范结束，现在请准备好，我们正式开始。",
+      "containsDemonstration": true
+    },
+    {
+      "id": "open-start",
+      "file": "open-start.wav",
+      "duration": 22.66,
+      "sampleRate": 24000,
+      "channels": 1,
+      "sha256": "1f9e1393c228bebc456ae7c16c1a231118b4856055dfa41be41f4fdca33bb8c1",
+      "text": "接下来进行睁眼前测。下面先示范声音。当听到 后，请自然注视屏幕中央的圆环，正常眨眼。当听到 后，请保持放松，等待工作人员安排。声音示范结束，现在准备开始。",
+      "containsDemonstration": true
+    },
+    {
+      "id": "closed-complete",
+      "file": "closed-complete.wav",
+      "duration": 4.29,
+      "sampleRate": 24000,
+      "channels": 1,
+      "sha256": "635378967b3d9b8d772fa4bca43fcb1442749d339fda3bb4f91c4a7934fbbbcd",
+      "text": "本段前测已完成，请慢慢睁开眼睛。",
+      "containsDemonstration": false
+    },
+    {
+      "id": "open-complete",
+      "file": "open-complete.wav",
+      "duration": 4.14,
+      "sampleRate": 24000,
+      "channels": 1,
+      "sha256": "ec1c1b2cd5011d6b3989ab04cd500ed539ae9cc7f1e3957551cd7001aee976f4",
+      "text": "睁眼测试已经完成。请放松一下。",
+      "containsDemonstration": false
+    },
+    {
+      "id": "recovery",
+      "file": "recovery.wav",
+      "duration": 5.97,
+      "sampleRate": 24000,
+      "channels": 1,
+      "sha256": "2fb220d6d5fc9b964fb67b472be224d0955e5ed6e17ab8f3ca05437cab9534c5",
+      "text": "本段前测已暂停，请慢慢睁开眼睛，等待工作人员。",
+      "containsDemonstration": false
+    },
+    {
+      "id": "training-wait",
+      "file": "training-wait.wav",
+      "duration": 8.86,
+      "sampleRate": 24000,
+      "channels": 1,
+      "sha256": "521aed16ebf5c0f8442eb84c7ef0f2b887b06580557c802cdc8482edd640642b",
+      "text": "接下来将进行专注训练。请保持舒适的坐姿，自然看向画面，等待工作人员开始。",
+      "containsDemonstration": false
+    },
+    {
+      "id": "training-start",
+      "file": "training-start.wav",
+      "duration": 11.18,
+      "sampleRate": 24000,
+      "channels": 1,
+      "sha256": "c5ccfb08a13081118640f77db9a730bb4c32b49d46d43041a9f2e4870fbdf3b2",
+      "text": "接下来开始本轮专注训练。请自然看向画面，正常眨眼，保持舒适的坐姿。准备好了，我们开始。",
+      "containsDemonstration": false
+    },
+    {
+      "id": "training-round-complete",
+      "file": "training-round-complete.wav",
+      "duration": 6.46,
+      "sampleRate": 24000,
+      "channels": 1,
+      "sha256": "bb4f8f964052214ada72f80233e1eb625bf56dcf7c757ce9eba269ce7bb4f9e2",
+      "text": "这一轮训练已完成。请放松休息，下一轮开始前会再次提示。",
+      "containsDemonstration": false
+    },
+    {
+      "id": "training-day-complete",
+      "file": "training-day-complete.wav",
+      "duration": 3.87,
+      "sampleRate": 24000,
+      "channels": 1,
+      "sha256": "28b8e861fab5580beb06954f4c6ed02d16bf06b48696d1e10eab5d55993ccf47",
+      "text": "今天的训练已完成。请放松休息。",
+      "containsDemonstration": false
+    }
+  ],
+  "previewFile": "closed-preview.wav"
+}

@@ -1,0 +1,183 @@
+/* Large-screen session journey layered around the approved resonance scene. */
+#resonance-training .session-toolbar{display:flex;align-items:center;gap:13px;margin:0 22px 10px;padding:10px 0;border-top:1px solid #153245;color:#9cb7ca;font-size:12px;min-height:44px}
+#resonance-training .session-toolbar>label{font-size:12px;letter-spacing:1px}
+#resonance-training select{font-family:inherit;color-scheme:dark}
+#resonance-training .session-mode{background:#0b202c;border:1px solid #315268;border-radius:7px;color:#dbedfa;min-height:33px;padding:5px 30px 5px 11px;font-size:12px;cursor:pointer}
+#resonance-training .session-phase{color:#96e3e3;padding-left:9px;border-left:1px solid #315061;white-space:nowrap}
+#resonance-training .session-caption{font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#resonance-training .score-caption{font-size:11px;line-height:1.6;min-height:27px;color:#8daab8;letter-spacing:.3px}
+#resonance-training .score-held .score{color:#b2c4cb;text-shadow:none;opacity:.7}
+#resonance-training .score-held .score-composition svg{opacity:.4}
+#resonance-training .signal-waiting{color:#a8bdc5}
+#resonance-training .signal-advice{font-size:11px;line-height:1.7;padding:10px 0 0;color:#bfbdac;max-width:30em}
+#resonance-training .backend-status{margin-left:auto;white-space:nowrap;color:#799ba8;font-size:11px}
+#resonance-training .backend-status::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:#83dac3;margin-right:7px;box-shadow:0 0 7px #83dac366}
+#resonance-training .backend-status.offline::before{background:#e7b784;box-shadow:none}
+#resonance-training .res-stage{height:clamp(440px,54vh,600px)}
+#resonance-training.session-workflow .res-stage{height:clamp(510px,calc(100vh - 330px),680px)}
+#resonance-training.session-workflow .res-controls{border-top:1px solid #173547;margin:0 18px;padding-left:0;padding-right:0}
+#resonance-training.session-workflow .volume-control{margin-right:auto}
+#resonance-training .session-drawer{position:absolute;z-index:3;left:28px;top:22px;bottom:22px;width:min(520px,65%);padding:28px 30px;background:linear-gradient(130deg,#0b2534f0,#06131ce8);border:1px solid #39607888;border-radius:15px;box-shadow:0 18px 65px #0007,inset 0 1px 0 #c0ecff0d;backdrop-filter:blur(18px);overflow:auto;scrollbar-width:thin;scrollbar-color:#34546a transparent}
+#resonance-training .session-kicker{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#7fc7d2;margin-bottom:16px}
+#resonance-training .session-drawer h1{font-family:"Songti SC",SimSun,serif;font-size:30px;line-height:1.4;font-weight:400;margin:0 0 14px;letter-spacing:1px;color:#e9f2f4}
+#resonance-training .session-drawer p{font-size:14px;line-height:1.9;color:#afc4d3;margin:0 0 22px;max-width:450px}
+#resonance-training .session-drawer small{display:block;font-size:11px;line-height:1.8;color:#839fac;margin-top:17px}
+#resonance-training .session-form{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;margin:19px 0}
+#resonance-training .session-form label{display:flex;flex-direction:column;gap:7px;color:#95b2c5;font-size:12px;min-width:0}
+#resonance-training .session-form input,#resonance-training .session-form select{background:#06141dcc;border:1px solid #315165;border-radius:7px;color:#e3edf5;min-width:0;width:100%;padding:10px 11px;font-size:13px;font-family:inherit}
+#resonance-training .session-form input:focus,#resonance-training .session-form select:focus{outline:1px solid #8ccbdc}
+#resonance-training .session-form>label:has([data-field=address]),#resonance-training .session-form>label:has([data-field=replay]){grid-column:1/3}
+#resonance-training .session-device-list{grid-column:1/3;display:flex;flex-wrap:wrap;gap:8px}
+#resonance-training .session-device-list:empty{display:none}
+#resonance-training .session-device-list button{font-size:11px;padding:7px}
+#resonance-training .session-actions{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:24px}
+#resonance-training .session-primary{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(140deg,#abdfe7,#86bce2);color:#082130;border:1px solid #c5eff1;border-radius:8px;padding:11px 18px;min-height:44px;text-decoration:none;font:inherit;font-size:14px;letter-spacing:.3px;box-shadow:0 0 25px #78c9e322}
+#resonance-training .session-primary:hover{filter:brightness(1.1)}
+#resonance-training .session-orbit{display:flex;align-items:center;justify-content:center;width:74px;height:74px;font-size:48px;line-height:1;font-weight:200;color:#a5e0e9;border:1px solid #6299af88;border-radius:50%;margin:12px 0 26px;background:radial-gradient(circle,#14364c,#071823);box-shadow:0 0 45px #70d6e622,inset 0 0 24px #7cdcf41a}
+#resonance-training .closed-eye{font-family:Georgia,serif;transform:rotate(0deg);font-size:53px}
+#resonance-training .session-device-info{color:#82c7ca;font-size:12px;padding:13px 0;border-top:1px solid #294b5c;border-bottom:1px solid #294b5c;line-height:1.8}
+#resonance-training .calibration-clock{font-size:49px;font-weight:300;letter-spacing:1px;color:#d9f0f4;font-variant-numeric:tabular-nums;margin:20px 0 14px}
+#resonance-training .calibration-clock span{font-size:20px;color:#708ea2}
+#resonance-training .calibration-progress{height:4px;border-radius:5px;background:#1c3949;overflow:hidden;margin-bottom:17px}
+#resonance-training .calibration-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#70bcd6,#a1eddb);box-shadow:0 0 9px #9eeeda77;transition:width .5s linear}
+#resonance-training .calibration-quality{font-size:12px;color:#8fcecb;min-height:18px}
+#resonance-training .session-contacts{margin:16px 0 12px}
+#resonance-training .contact-heading{display:flex;justify-content:space-between;gap:12px;margin-bottom:9px;color:#b9d5e1;font-size:12px}
+#resonance-training .contact-heading span{font-size:10px;color:#7899aa}
+#resonance-training .contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#resonance-training .contact-card{border:1px solid #304959;border-radius:8px;background:#0a1b27b3;padding:10px 12px;min-width:0;color:#91a9b8}
+#resonance-training .contact-label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:#d2e1e9}
+#resonance-training .contact-label strong{font-weight:400}
+#resonance-training .contact-label span{font-size:10px;letter-spacing:.6px;color:#8eabba}
+#resonance-training .contact-state{font-size:13px;line-height:1.5;margin-top:5px}
+#resonance-training .contact-state::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:7px;vertical-align:1px}
+#resonance-training .contact-reason{font-size:10px;line-height:1.6;margin-top:2px;color:#9eb4c2;min-height:16px}
+#resonance-training .contact-card[data-contact-state=stable]{color:#8ce0ce;border-color:#37665f;background:#102c2c70}
+#resonance-training .contact-card[data-contact-state=warning]{color:#e6d09b;border-color:#665b3e;background:#2d2c2270}
+#resonance-training .contact-card[data-contact-state=adjust]{color:#f3c68e;border-color:#84613c;background:#392b2070}
+#resonance-training .contact-summary{font-size:12px;line-height:1.75;color:#b8cdd7;min-height:21px}
+#resonance-training:is([data-phase=connected],[data-phase=calibrating_closed],[data-phase=calibrating_open]) .session-orbit{width:42px;height:42px;font-size:30px;margin:0 0 13px}
+#resonance-training:is([data-phase=connected],[data-phase=calibrating_closed],[data-phase=calibrating_open]) .session-drawer h1{font-size:27px;margin-bottom:10px}
+#resonance-training:is([data-phase=connected],[data-phase=calibrating_closed],[data-phase=calibrating_open]) .session-drawer p{font-size:13px;line-height:1.75;margin-bottom:12px}
+#resonance-training:is([data-phase=calibrating_closed],[data-phase=calibrating_open]) .calibration-clock{font-size:38px;margin:10px 0}
+#resonance-training:is([data-phase=calibrating_closed],[data-phase=calibrating_open]) .calibration-progress{margin-bottom:10px}
+#resonance-training:is([data-phase=connected],[data-phase=calibrating_closed],[data-phase=calibrating_open]) .session-drawer small{margin-top:12px}
+#resonance-training[data-phase=connected] .session-actions{margin-top:16px}
+#resonance-training .session-error{margin-top:17px;border-left:2px solid #d7ad7a;padding:8px 11px;background:#70432220;font-size:12px;line-height:1.7;color:#e7c199;white-space:pre-wrap;overflow-wrap:anywhere}
+#resonance-training .session-live-strip{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 18px;padding:15px 5px 14px;border-top:1px solid #173547}
+#resonance-training .session-live-strip>div:first-child{display:flex;align-items:center;gap:17px;min-width:0}
+#resonance-training .session-live-title{font-size:14px;color:#d0e8ee;font-weight:400}
+#resonance-training .session-live-detail{font-size:12px;color:#85a7bc}
+#resonance-training .session-live-actions{display:flex;gap:10px}
+#resonance-training .session-finish{border-color:#54798c}
+#resonance-training .session-result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:23px 0 19px}
+#resonance-training .session-result-stats>div{display:flex;flex-direction:column;gap:9px;border-right:1px solid #315065;padding-right:12px}
+#resonance-training .session-result-stats>div:last-child{border:0}
+#resonance-training .session-result-stats strong{font-size:28px;font-weight:300;font-variant-numeric:tabular-nums;color:#d5eef2}
+#resonance-training .session-result-stats span{font-size:11px;color:#87a9bd}
+#resonance-training .session-chart{background:#05131b77;border:1px solid #264351;border-radius:9px;padding:12px 12px 2px}
+#resonance-training .session-chart>span{font-size:11px;color:#88adbd}
+#resonance-training .session-chart svg{display:block;width:100%;height:118px;margin-top:7px}
+#resonance-training.session-workflow:not([data-phase=training]):not([data-phase=paused]) .res-callouts{opacity:.3}
+#resonance-training.session-workflow[data-phase=completed] .session-drawer{width:min(600px,70%)}
+#resonance-training [data-action]:disabled,#resonance-training .session-mode:disabled{cursor:wait;opacity:.6}
+@media(min-width:1600px){#resonance-training .session-drawer{width:570px;padding:34px 38px;left:38px;top:28px;bottom:28px}#resonance-training .session-drawer h1{font-size:34px}#resonance-training .session-drawer p{font-size:15px}#resonance-training .session-form{margin:23px 0}#resonance-training .session-toolbar{font-size:13px;margin-left:26px;margin-right:26px}#resonance-training .session-mode{font-size:13px}}
+
+/* Two measured indices, one attention-driven sound field. */
+#resonance-training .meditation-section{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 0 13px;color:#b5b7e9;font-size:13px}
+#resonance-training .meditation-section small{font-size:10px;color:#7895a9;margin-left:6px}
+#resonance-training .meditation-score{font-size:27px;font-weight:300;font-variant-numeric:tabular-nums}
+#resonance-training .meditation-section.is-held .meditation-score{opacity:.6;color:#b2c4cb}
+#resonance-training .session-fixed-duration{display:flex;flex-direction:column;gap:8px;color:#95b2c5;font-size:12px}
+#resonance-training .session-fixed-duration strong{font-size:18px;color:#c5e6ed;font-weight:400}
+#resonance-training .session-fixed-duration small{margin:0;font-size:10px}
+#resonance-training .calibration-cue-help{padding:10px 12px;background:#18374770;border:1px solid #345369;border-radius:8px;font-size:11px;line-height:1.7;color:#bed9df;margin-top:12px}
+#resonance-training .calibration-cue-help>div{display:flex;gap:8px;margin-top:7px}
+#resonance-training .calibration-cue-help button{font-size:11px;min-height:30px;padding:5px 10px}
+#resonance-training .calibration-cue-help small{margin-top:5px!important;font-size:10px;color:#839fac}
+#resonance-training[data-phase=connected] .session-orbit{display:none}
+#resonance-training[data-phase=connected] .contact-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+#resonance-training[data-phase=connected] .contact-card{padding:10px 8px}
+#resonance-training[data-phase=connected] .contact-label{flex-direction:column;align-items:flex-start;gap:3px}
+#resonance-training[data-phase=connected] .contact-state{font-size:11px;white-space:nowrap}
+#resonance-training[data-phase=connected] .contact-reason{min-height:32px}
+#resonance-training .baseline-note{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 0;border-top:1px solid #244454;color:#93d9d0;font-size:12px;line-height:1.7}
+#resonance-training .baseline-note span{font-size:10px;color:#89a8b7}
+#resonance-training .ready-quality{margin:6px 0 14px;font-size:11px}
+#resonance-training .chart-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;font-size:12px;color:#a0bfcd}
+#resonance-training .chart-legend{display:flex;align-items:center;gap:7px;font-size:11px;color:#a6bdcb;white-space:nowrap}
+#resonance-training .chart-legend i{display:inline-block;width:16px;height:2px;margin-left:9px;border-radius:2px;background:#8edddf}
+#resonance-training .chart-legend i.relaxation-curve{background:#b4a9ee}
+#resonance-training .session-chart svg{height:auto;max-height:206px;overflow:visible}
+#resonance-training .session-chart svg text{fill:#83a5b6;font-size:11px;font-family:inherit}
+#resonance-training .chart-grid{fill:none;stroke:#244453;stroke-width:1}
+#resonance-training .chart-line{fill:none;stroke:#8edddf;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+#resonance-training .chart-line.relaxation-curve{stroke:#b4a9ee;stroke-width:1.6;opacity:.9}
+#resonance-training .chart-dot{fill:#8edddf}
+#resonance-training .chart-dot.relaxation-curve{fill:#b4a9ee}
+#resonance-training .chart-threshold{fill:none;stroke:#c9a673;stroke-width:1;stroke-dasharray:5 5;opacity:.7}
+#resonance-training .session-chart .peak-label{fill:#c9b18a}
+#resonance-training .peak-dot{fill:#f6d69f;stroke:#fff1d8;stroke-width:1.5}
+#resonance-training .stage-band{fill:#7c91b70c}
+#resonance-training .stage-band.open{fill:#5ea89e0e}
+#resonance-training .chart-note{font-size:10px;line-height:1.7;color:#7b9aa9;margin:6px 0 9px}
+#resonance-training .session-chart-empty{min-height:160px;display:flex;align-items:center;justify-content:center;gap:10px;color:#859ead;font-size:12px}
+#resonance-training[data-phase=completed] .res-main{display:block}
+#resonance-training[data-phase=completed] .res-panel{display:none}
+#resonance-training.session-workflow[data-phase=completed] .res-stage{height:clamp(590px,calc(100vh - 250px),800px)}
+#resonance-training.session-workflow[data-phase=completed] .session-drawer{left:22px;right:22px;top:6px;bottom:12px;width:auto;padding:22px 32px;background:linear-gradient(125deg,#0c2330f5,#071722f5)}
+#resonance-training[data-phase=completed] .session-kicker{margin-bottom:9px}
+#resonance-training .result-heading{display:flex;justify-content:space-between;gap:20px;align-items:center}
+#resonance-training .result-heading h1{font-size:29px;margin-bottom:4px}
+#resonance-training .result-heading p{margin:0;font-size:12px}
+#resonance-training .result-times{display:flex;align-items:center;gap:24px;font-size:11px;color:#8fb0c1;white-space:nowrap}
+#resonance-training .result-times strong{display:inline-block;font-size:23px;font-weight:300;color:#d7eaf0;margin-left:6px;font-variant-numeric:tabular-nums}
+#resonance-training .session-result-stats{grid-template-columns:repeat(5,minmax(0,1fr));gap:22px;margin:22px 0}
+#resonance-training .session-result-stats strong{font-size:32px}
+#resonance-training .result-tabs{display:flex;gap:24px;border-bottom:1px solid #2c4555;margin-bottom:15px}
+#resonance-training .result-tabs button{border:0;border-bottom:2px solid transparent;background:none;color:#8fabbe;padding:8px 2px 10px;font-family:inherit;font-size:13px;cursor:pointer}
+#resonance-training .result-tabs button[aria-selected=true]{border-bottom-color:#98d9da;color:#c6ebed}
+#resonance-training .result-chart{padding:14px 16px 3px;min-height:254px}
+#resonance-training .result-chart>svg{max-height:225px}
+#resonance-training .result-footer{display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+#resonance-training .result-footer .session-actions{margin-top:16px}
+#resonance-training .result-footer small{text-align:right;font-size:10px}
+#resonance-training .history-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#97b1c2;font-size:11px}
+#resonance-training .history-toolbar select{background:#091b27;color:#cce3ec;border:1px solid #365264;border-radius:5px;font:inherit;padding:6px 9px;margin-left:8px}
+#resonance-training .history-charts{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;margin-top:12px}
+#resonance-training .history-mini-chart>span{font-size:11px;color:#a9c4d3}
+#resonance-training .history-mini-chart svg{width:100%;height:95px;margin:0}
+#resonance-training .history-mini-chart svg text{font-size:15px}
+#resonance-training .history-dates{display:flex;flex-wrap:wrap;gap:6px 18px;margin:9px 0;color:#7596a8;font-size:10px}
+#resonance-training .calibration-visual-guide{display:none;position:absolute;inset:0;pointer-events:none;width:calc(100% - 390px)}
+#resonance-training .calibration-visual-guide>i{position:absolute;left:45%;top:calc(50% - 32px);width:5px;height:5px;border-radius:50%;background:#c7e9f4;transform:translate(-50%,-50%);box-shadow:0 0 12px #c7e9f466}
+#resonance-training .calibration-visual-guide>div{position:absolute;left:0;right:10%;bottom:12px;text-align:center}
+#resonance-training .calibration-visual-guide strong{display:block;font-size:16px;font-weight:400;color:#c9e6ec;letter-spacing:1px}
+#resonance-training .calibration-visual-guide span{display:block;font-size:11px;color:#86a8bb;margin-top:9px}
+#resonance-training[data-phase=calibrating_open] .calibration-visual-guide{display:block}
+#resonance-training[data-phase=calibrating_open] .res-main{display:block}
+#resonance-training[data-phase=calibrating_open] .res-panel,#resonance-training[data-phase=calibrating_open] .res-callouts{display:none}
+#resonance-training[data-phase=calibrating_open] .res-canvas{width:calc(100% - 390px);height:calc(100% - 64px)}
+#resonance-training.session-workflow[data-phase=calibrating_open] .res-stage{height:clamp(590px,calc(100vh - 250px),780px)}
+#resonance-training[data-phase=calibrating_open] .session-drawer{left:auto;right:22px;width:350px;top:12px;bottom:14px;padding:23px 22px}
+#resonance-training[data-phase=calibrating_open] .session-drawer h1{font-size:24px}
+#resonance-training[data-phase=calibrating_open] .contact-grid{gap:7px}
+#resonance-training[data-phase=calibrating_open] .contact-card{padding:9px}
+#resonance-training.session-workflow:is([data-phase=connected],[data-phase=calibrating_closed],[data-phase=closed_complete],[data-phase=ready]) .res-stage{height:clamp(590px,calc(100vh - 250px),780px)}
+@media(max-height:950px) and (min-width:1000px){
+ #resonance-training.session-workflow[data-phase=completed] .session-drawer{padding:18px 26px}
+ #resonance-training[data-phase=completed] .session-kicker{margin-bottom:6px}
+ #resonance-training .session-result-stats{margin:17px 0}
+ #resonance-training .result-chart{min-height:236px}
+ #resonance-training .result-chart>svg{max-height:180px}
+ #resonance-training .history-mini-chart svg{height:57px}
+ #resonance-training .result-tabs{margin-bottom:10px}
+ #resonance-training .meditation-section{padding-bottom:8px}
+ #resonance-training.session-workflow .res-panel{padding-top:17px;padding-bottom:15px}
+ #resonance-training.session-workflow .score-composition{height:104px}
+ #resonance-training.session-workflow .score{font-size:88px}
+ #resonance-training.session-workflow .time-section{padding:12px 0}
+ #resonance-training.session-workflow .signal-section{padding:13px 0}
+ #resonance-training.session-workflow .res-tracks{padding-top:13px;margin-bottom:14px}
+ #resonance-training.session-workflow .track-row{margin-top:12px}
+}

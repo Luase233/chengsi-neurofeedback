@@ -1,0 +1,97 @@
+html[data-view="operator"] #resonance-training .operator-contacts {
+  margin-top: 14px;
+}
+
+.operator-signal-list {
+  display: grid;
+  gap: 2px;
+}
+
+.operator-signal-row {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 11px;
+  min-height: 38px;
+  color: #1d2a3d;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.operator-signal-dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #a8b3c2;
+}
+
+.operator-signal-label {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.operator-signal-label strong {
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.operator-signal-label span {
+  color: #536279;
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.operator-signal-state {
+  color: #65738a;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.operator-signal-row[data-contact-state="stable"] .operator-signal-dot {
+  background: #25b785;
+}
+
+.operator-signal-row[data-contact-state="warning"] .operator-signal-dot,
+.operator-signal-row[data-contact-state="adjust"] .operator-signal-dot {
+  background: #d99822;
+}
+
+.operator-signal-row[data-contact-state="warning"] .operator-signal-state,
+.operator-signal-row[data-contact-state="adjust"] .operator-signal-state {
+  color: #9b680d;
+}
+
+.operator-signal-details {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid #e7ecf2;
+  color: #65738a;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.operator-signal-details[hidden] {
+  display: none;
+}
+
+.operator-signal-details summary {
+  width: fit-content;
+  cursor: pointer;
+  color: #536279;
+  font-weight: 600;
+}
+
+.operator-signal-details summary:focus-visible {
+  outline: 2px solid #1479ff;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.operator-signal-summary {
+  margin: 8px 0 0;
+}

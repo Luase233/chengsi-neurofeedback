@@ -1,0 +1,7 @@
+/* Scene choice belongs to staff. Participant controls stay visually quiet. */
+body[data-training-photo=true] .participant-brand{color:#f7fafc;text-shadow:0 1px 7px #12344599}
+body[data-training-photo=true] .participant-brand span{color:#e0edf2}
+body[data-training-photo=true] .participant-guide{top:auto;bottom:9%;padding:20px 28px;background:#102432bd;border-radius:16px;left:calc(50% - 300px);right:auto;width:600px;max-width:80vw;color:#f5f8fb}
+body[data-training-photo=true] .participant-stage{color:#e0ebf2}
+body[data-training-photo=true] .participant-hint{color:#e0ebf2}
+body[data-training-photo=true] .participant-tools button{color:#fff;text-shadow:0 1px 5px #18333f}

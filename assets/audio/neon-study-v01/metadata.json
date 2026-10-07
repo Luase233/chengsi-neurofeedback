@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "id": "neon-study-v01",
+  "title": "晴窗漫游 v01",
+  "source": "Original LMMS city-groove composition; no source-song samples",
+  "sourceProject": "13-MusicAssets/Neon-Study-v01/晴窗漫游_v01_60秒训练.mmp",
+  "sourceProjectSha256": "1733c87492cdaeddc66d28b7766bb582485b2db24b4ac0d1f5c6bf7577043fa1",
+  "outputSampleRate": 44100,
+  "loopMode": "native",
+  "loopStartSeconds": 0,
+  "crossfadeSeconds": 0,
+  "headStartSeconds": 0,
+  "demoStartSeconds": 0,
+  "feedbackProfile": "easy-going-continuous-v2",
+  "beatGrid": {
+    "bpm": 96,
+    "offsetSeconds": 0,
+    "beatsPerBar": 4,
+    "loopBeats": 96,
+    "meterVerified": true,
+    "source": "Authored score; metadata does not imply beat-quantized score feedback"
+  },
+  "sections": [
+    {
+      "startSeconds": 0.0,
+      "endSeconds": 10.0,
+      "bar": 0,
+      "name": "A · 晴窗主题"
+    },
+    {
+      "startSeconds": 10.0,
+      "endSeconds": 30.0,
+      "bar": 4,
+      "name": "B · 街角展开"
+    },
+    {
+      "startSeconds": 30.0,
+      "endSeconds": 50.0,
+      "bar": 12,
+      "name": "C · 漫游 solo"
+    },
+    {
+      "startSeconds": 50.0,
+      "endSeconds": 60.0,
+      "bar": 20,
+      "name": "A′ · 回到晴窗"
+    }
+  ],
+  "processing": {
+    "renderEngine": "Installed LMMS 1.2.2, actual native instruments and sample players",
+    "sourceCycles": 3,
+    "extractedCycle": 2,
+    "endpointCorrectionSeconds": 0.003,
+    "normalization": "One common authored master trim; no per-layer normalization",
+    "sharedHeadroomTrim": 1,
+    "encoding": "PCM signed 16-bit stereo, 44100 Hz"
+  },
+  "tracks": [
+    {
+      "id": "layer-1",
+      "file": "layer-1.wav",
+      "channels": 2,
+      "sampleRate": 44100,
+      "frames": 2646000,
+      "duration": 60.0,
+      "rms": 0.04589295257316318,
+      "peak": 0.29425048828125,
+      "sha256": "d80fd51bfbdcc1769f3e5bed84b89194f31f24bbf1d091e352d90a6b1174af61",
+      "bytes": 10584078,
+      "preparedMetrics": {
+        "peak": 0.29425048828125,
+        "rms": 0.04589295257316318,
+        "peakDbfs": -10.626,
+        "rmsDbfs": -26.765,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.0,
+        "adjacentStep99_9Percentile": 0.009796142578125,
+        "seamWindowMaximumAdjacentStep": 0.003753662109375
+      },
+      "instruments": [
+        "01 L1 · FM电钢琴和声",
+        "02 L1 · 圆润模拟贝斯",
+        "03 L1 · 温暖合成器底纹",
+        "04 L1 · 玻璃拨音主题"
+      ]
+    },
+    {
+      "id": "layer-2",
+      "file": "layer-2.wav",
+      "channels": 2,
+      "sampleRate": 44100,
+      "frames": 2646000,
+      "duration": 60.0,
+      "rms": 0.02894537497950496,
+      "peak": 0.2513427734375,
+      "sha256": "05fdad9d9af7104c7dd7310b36ef8476d623be95a6df1532b84469a4466b9ce3",
+      "bytes": 10584078,
+      "preparedMetrics": {
+        "peak": 0.2513427734375,
+        "rms": 0.02894537497950496,
+        "peakDbfs": -11.995,
+        "rmsDbfs": -30.768,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.0,
+        "adjacentStep99_9Percentile": 0.0731201171875,
+        "seamWindowMaximumAdjacentStep": 0.113555908203125
+      },
+      "instruments": [
+        "05 L2 · 切分清音吉他",
+        "06 L2 · 软电子底鼓",
+        "07 L2 · 松弛电子军鼓",
+        "08 L2 · 细颗粒闭镲",
+        "09 L2 · 沙槌弱拍",
+        "10 L2 · 轻掌声回应"
+      ]
+    },
+    {
+      "id": "layer-3",
+      "file": "layer-3.wav",
+      "channels": 2,
+      "sampleRate": 44100,
+      "frames": 2646000,
+      "duration": 60.0,
+      "rms": 0.04970422587153458,
+      "peak": 0.303314208984375,
+      "sha256": "d05f20f990ca456a8b9b5b4c7f23c7b866b9c4f8a39a3cfbbe0e278c9347712e",
+      "bytes": 10584078,
+      "preparedMetrics": {
+        "peak": 0.303314208984375,
+        "rms": 0.04970422587153458,
+        "peakDbfs": -10.362,
+        "rmsDbfs": -26.072,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.0,
+        "adjacentStep99_9Percentile": 0.015411376953125,
+        "seamWindowMaximumAdjacentStep": 0.006500244140625
+      },
+      "instruments": [
+        "11 L3 · 温暖合成器主奏",
+        "12 L3 · FM短句回应"
+      ]
+    }
+  ],
+  "duration": 60.0,
+  "cycleDuration": 60.0,
+  "sourceDuration": 60.0,
+  "loopEndSeconds": 60.0,
+  "combinationChecks": [
+    {
+      "layers": [
+        1
+      ],
+      "peak": 0.29424551129341125,
+      "rms": 0.04589295025998677,
+      "peakDbfs": -10.626,
+      "rmsDbfs": -26.765,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.009794957935810089,
+      "seamWindowMaximumAdjacentStep": 0.003742801956832409
+    },
+    {
+      "layers": [
+        1,
+        2
+      ],
+      "peak": 0.3475332260131836,
+      "rms": 0.054358782115263474,
+      "peakDbfs": -9.18,
+      "rmsDbfs": -25.295,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.07323042303323746,
+      "seamWindowMaximumAdjacentStep": 0.11258310079574585
+    },
+    {
+      "layers": [
+        1,
+        2,
+        3
+      ],
+      "peak": 0.42679619789123535,
+      "rms": 0.07312554867494003,
+      "peakDbfs": -7.396,
+      "rmsDbfs": -22.719,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.07359427213668823,
+      "seamWindowMaximumAdjacentStep": 0.10997190326452255
+    }
+  ],
+  "measurementNote": "Engineering checks only; not a listening or attention-efficacy assessment"
+}

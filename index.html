@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>灵枢 · 澄思 — 共振声场</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="session.css">
+<script src="easy-going-profile.js" defer></script>
+<script src="audio-programs.js" defer></script>
+<script src="audio-engine.js" defer></script>
+<script src="silk-material.js" defer></script>
+<script src="renderer.js" defer></script>
+<script src="feedback-policy.js" defer></script>
+<script src="calibration-cues.js" defer></script>
+<script src="session-client.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div id="resonance-training">
+  <div class="res-app">
+    <header class="res-header">
+      <div class="res-brand"><span class="brand-glyph" aria-hidden="true">∿</span><strong>灵枢 · 澄思</strong><span class="brand-sub">实时训练反馈</span></div>
+      <ol class="res-steps" aria-label="演示流程"><li><b>1</b>连接</li><li><b>2</b>校准</li><li class="active" aria-current="step"><b>3</b>训练</li><li><b>4</b>结果</li></ol>
+      <span class="res-badge">概念预览 · 模拟指数</span>
+    </header>
+    <section class="session-toolbar" aria-label="训练模式">
+      <label for="session-mode">体验模式</label><select id="session-mode" class="session-mode"><option value="preview">声场预览</option><option value="synthetic">模拟全流程</option><option value="live">Muse 2 实机</option><option value="replay">记录回放</option></select>
+      <span class="session-phase">不限时试听</span><span class="session-caption">自由试听音乐与反馈变化</span>
+      <span class="backend-status">正在连接本地服务…</span>
+    </section>
+    <main class="res-main">
+      <div class="res-stage" aria-label="共振声场">
+        <canvas class="res-canvas" role="img" aria-label="三层共振声场：青色薄纱随氛围声流动，金色光点随鼓点闪耀，蓝色核心随低音呼吸"></canvas>
+        <div class="calibration-visual-guide" aria-hidden="true"><i></i><div><strong>睁眼前测 · 视觉引导</strong><span>自然注视中心 · 正常眨眼 · 动画不代表测量分数</span></div></div>
+        <div class="res-callouts" aria-hidden="true">
+          <div class="res-callout other"><span class="callout-line"></span><strong>氛围 · OTHER</strong><small>薄纱随氛围声逐渐展开</small></div>
+          <div class="res-callout drums"><span class="callout-line"></span><strong>节奏 · DRUMS</strong><small>光点逐渐加入，随节拍轻闪</small></div>
+          <div class="res-callout bass"><span class="callout-line"></span><strong>低音 · BASS</strong><small>波纹层层展开，随低频呼吸</small></div>
+        </div>
+        <div class="signal-overlay" hidden><strong>信号暂不可用</strong><span>声音平滑回到基础氛围</span></div>
+        <section class="session-drawer" aria-live="polite" hidden></section>
+      </div>
+      <aside class="res-panel">
+        <div class="score-section"><div class="panel-label">个体化反馈指数 <span>模拟</span></div><div class="score-composition"><span class="score">72</span><svg viewBox="0 0 220 80" role="img" aria-label="反馈指数装饰曲线"><defs><linearGradient id="score-line-color"><stop stop-color="#ffdeb1"/><stop offset=".64" stop-color="#a5d5f6"/><stop offset="1" stop-color="#70bbf8" stop-opacity="0"/></linearGradient></defs><g class="score-wave" fill="none" stroke="url(#score-line-color)"></g></svg></div><div class="score-caption">手动试听</div></div>
+        <div class="meditation-section" hidden><span>放松分 <small>辅助观察</small></span><strong class="meditation-score">—</strong></div>
+        <div class="time-section"><div><div class="panel-label">试听模式</div><strong class="remaining unlimited-label">不限时</strong></div><span class="continuous-symbol" aria-hidden="true">∞</span></div>
+        <div class="signal-section"><span class="panel-label">信号状态</span><span class="signal-status"><i class="signal-bars" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></i><span>模拟信号良好</span></span></div>
+        <div class="signal-advice" hidden></div>
+        <div class="res-tracks"><div class="panel-label">声音参与度</div><div class="track-row other" data-track="0"><span>氛围 · OTHER</span><div class="level-meter"></div><small class="level-number">6/6</small></div><div class="track-row drums" data-track="1"><span>节奏 · DRUMS</span><div class="level-meter"></div><small class="level-number">6/6</small></div><div class="track-row bass" data-track="2"><span>低音 · BASS</span><div class="level-meter"></div><small class="level-number">3/6</small></div></div>
+        <button type="button" class="pause-button cursor-interaction"><span class="pause-icon" aria-hidden="true">Ⅱ</span><span class="pause-text">暂停</span></button>
+      </aside>
+    </main>
+    <div class="preset-grid" aria-label="比较三种声音状态">
+      <button type="button" class="preset-card cursor-interaction" data-score="24" aria-pressed="false"><span class="preset-copy"><strong><em>24</em> · 氛围</strong><span>环境声缓缓流动，<br>化作宁静的空间。</span></span><canvas role="img" aria-label="仅氛围层的青色声场"></canvas><span class="preset-action">预览此状态</span></button>
+      <button type="button" class="preset-card cursor-interaction" data-score="52" aria-pressed="false"><span class="preset-copy"><strong><em>52</em> · 加入节奏</strong><span>节奏逐渐融入，<br>出现规律的脉冲。</span></span><canvas role="img" aria-label="加入金色节奏层的声场"></canvas><span class="preset-action">预览此状态</span></button>
+      <button type="button" class="preset-card cursor-interaction" data-score="80" aria-pressed="false"><span class="preset-copy"><strong><em>80</em> · 三轨共鸣</strong><span>三重声部相互交织，<br>形成完整的声场。</span></span><canvas role="img" aria-label="青色氛围金色节奏与蓝色低音三轨声场"></canvas><span class="preset-action">预览此状态</span></button>
+    </div>
+    <section class="session-live-strip" hidden><div><strong class="session-live-title">训练进行中</strong><span class="session-live-detail"></span></div><div class="session-live-actions"><button type="button" class="session-recalibrate res-small-button" hidden>重新佩戴 · 重新校准</button><button type="button" class="session-finish res-small-button">结束本次训练</button></div></section>
+    <footer class="res-controls">
+      <div class="program-control"><label for="res-program">训练音频</label><select id="res-program" class="program-select cursor-interaction" aria-label="选择训练音频"></select></div>
+      <div class="score-control"><label for="res-score">模拟反馈指数 <output class="slider-value">72</output></label><input id="res-score" class="score-slider cursor-interaction" type="range" min="0" max="100" step="1" value="72"></div>
+      <button type="button" class="audio-button res-small-button cursor-interaction" aria-pressed="false">开启声音</button>
+      <div class="volume-control"><label for="res-volume">音量 <span class="volume-value">35%</span></label><input id="res-volume" class="volume-slider cursor-interaction" type="range" min="0" max="70" value="35"></div>
+      <button type="button" class="signal-button res-small-button cursor-interaction" aria-pressed="false">模拟断连</button>
+      <button type="button" class="fullscreen-button res-small-button cursor-interaction">全屏</button>
+    </footer>
+    <div class="res-footnote"><span class="mode-note">不限时试听 · 演示设定：80 分完整声场</span><span class="audio-note">静音预览 · 项目原有三轨音频</span></div>
+    <div class="a11y-status" aria-live="polite"></div>
+  </div>
+</div>
+<script type="application/json" id="resonance-texture-data">"assets/silk-material.webp"</script>
+</body>
+</html>

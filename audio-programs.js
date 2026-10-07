@@ -1,0 +1,58 @@
+// Runtime catalog. Optional licensed programs are registered locally.
+window.CHENGSI_AUDIO_PROGRAMS = [
+  {
+    "id": "clear-current-v01",
+    "title": "澄流 v01 · 初版",
+    "metadata": "clear-current-v01/metadata.json",
+    "feedbackProfile": "easy-going-continuous-v2",
+    "beatGrid": {
+      "bpm": 84,
+      "offsetSeconds": 0,
+      "beatsPerBar": 4
+    }
+  },
+  {
+    "id": "clear-current-v02",
+    "title": "澄流 v02 · 柔和旋律",
+    "metadata": "clear-current-v02/metadata.json",
+    "feedbackProfile": "easy-going-continuous-v2",
+    "beatGrid": {
+      "bpm": 84,
+      "offsetSeconds": 0,
+      "beatsPerBar": 4
+    }
+  },
+  {
+    "id": "clear-current-v03",
+    "title": "澄流 v03 · 丰富编配",
+    "metadata": "clear-current-v03/metadata.json",
+    "feedbackProfile": "easy-going-continuous-v2",
+    "beatGrid": {
+      "bpm": 84,
+      "offsetSeconds": 0,
+      "beatsPerBar": 4
+    }
+  },
+  {
+    "id": "clear-current-v04",
+    "title": "澄流 v04 · 低频与律动修订",
+    "metadata": "clear-current-v04/metadata.json",
+    "feedbackProfile": "easy-going-continuous-v2",
+    "beatGrid": {
+      "bpm": 84,
+      "offsetSeconds": 0,
+      "beatsPerBar": 4
+    }
+  },
+  {
+    "id": "neon-study-v01",
+    "title": "晴窗漫游 v01",
+    "metadata": "neon-study-v01/metadata.json",
+    "feedbackProfile": "easy-going-continuous-v2",
+    "beatGrid": {
+      "bpm": 96,
+      "offsetSeconds": 0,
+      "beatsPerBar": 4
+    }
+  }
+];

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>灵枢 · 澄思 — 被试展示</title>
+<link rel="stylesheet" href="participant.css">
+<link rel="stylesheet" href="training-scenes.css">
+<script src="easy-going-profile.js" defer></script>
+<script src="audio-programs.js" defer></script>
+<script src="audio-engine.js" defer></script>
+<script src="silk-material.js" defer></script>
+<script src="renderer.js" defer></script>
+<script src="feedback-policy.js" defer></script>
+<script src="calibration-cues.js" defer></script>
+<script src="participant-visuals.js" defer></script>
+<script src="training-scenes.js" defer></script>
+<script src="participant.js" defer></script>
+</head>
+<body>
+<main class="participant-display" aria-label="被试训练画面">
+  <header class="participant-brand">灵枢 <span>·</span> 澄思</header>
+  <section class="participant-idle" aria-label="等待佩戴引导"><h1>灵枢 <span>·</span> 澄思</h1><p>等待工作人员开始佩戴引导</p></section>
+  <canvas class="participant-canvas" role="img" aria-label="随音乐平滑变化的三层声场"></canvas>
+  <div class="participant-guide" aria-live="polite"><p class="participant-stage"></p><h1><span>准备开始</span></h1><p class="participant-hint">请等待工作人员引导</p><button type="button" class="participant-confirm" hidden>头环已戴好</button><p class="participant-confirm-status" role="status"></p></div>
+  <div class="participant-setup">
+    <section aria-labelledby="participant-title">
+      <h1 id="participant-title">准备声音</h1>
+      <p class="setup-description">工作人员启用声音后，按顺序进行佩戴引导</p>
+      <button type="button" class="participant-enable">启用声音并进入展示</button>
+      <p class="setup-status" role="status"></p>
+    </section>
+  </div>
+  <nav class="participant-tools" aria-label="展示控制" hidden>
+    <button type="button" class="participant-fullscreen">全屏</button>
+    <button type="button" class="participant-exit">退出展示</button>
+  </nav>
+</main>
+<script type="application/json" id="resonance-texture-data">"assets/silk-material.webp"</script>
+</body>
+</html>
