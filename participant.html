@@ -2,7 +2,11 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="澄思训练">
+<meta name="mobile-web-app-capable" content="yes">
 <title>灵枢 · 澄思 — 被试展示</title>
 <link rel="stylesheet" href="participant.css">
 <link rel="stylesheet" href="training-scenes.css">
@@ -20,6 +24,7 @@
 <body>
 <main class="participant-display" aria-label="被试训练画面">
   <header class="participant-brand">灵枢 <span>·</span> 澄思</header>
+  <p class="participant-status" role="status" hidden></p>
   <section class="participant-idle" aria-label="等待佩戴引导"><h1>灵枢 <span>·</span> 澄思</h1><p>等待工作人员开始佩戴引导</p></section>
   <canvas class="participant-canvas" role="img" aria-label="随音乐平滑变化的三层声场"></canvas>
   <div class="participant-guide" aria-live="polite"><p class="participant-stage"></p><h1><span>准备开始</span></h1><p class="participant-hint">请等待工作人员引导</p><button type="button" class="participant-confirm" hidden>头环已戴好</button><p class="participant-confirm-status" role="status"></p></div>
@@ -32,6 +37,7 @@
     </section>
   </div>
   <nav class="participant-tools" aria-label="展示控制" hidden>
+    <button type="button" class="participant-resume" hidden>恢复声音</button>
     <button type="button" class="participant-fullscreen">全屏</button>
     <button type="button" class="participant-exit">退出展示</button>
   </nav>

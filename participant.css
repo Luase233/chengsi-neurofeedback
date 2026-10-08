@@ -1,8 +1,9 @@
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#11151b;color:#edf1f6;font-family:"Segoe UI","Microsoft YaHei",sans-serif;color-scheme:dark}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#11151b;color:#edf1f6;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;color-scheme:dark;-webkit-text-size-adjust:100%;overscroll-behavior:none}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-.participant-display{position:relative;width:100%;height:100%;min-height:540px;background:#11151b;isolation:isolate}
-.participant-brand{position:absolute;z-index:2;top:35px;left:44px;font-size:22px;font-weight:600;letter-spacing:3px;color:#edf1f6;pointer-events:none}
+.participant-display{position:relative;width:100%;height:100%;height:100dvh;background:#11151b;isolation:isolate}
+.participant-brand{position:absolute;z-index:2;top:max(35px,env(safe-area-inset-top));left:max(44px,env(safe-area-inset-left));font-size:22px;font-weight:600;letter-spacing:3px;color:#edf1f6;pointer-events:none}
+.participant-status{position:absolute;z-index:4;top:max(30px,env(safe-area-inset-top));right:max(28px,env(safe-area-inset-right));max-width:min(55%,440px);margin:0;padding:8px 12px;border-radius:10px;background:#11151be8;color:#c3d0df;font-size:13px;line-height:1.6}
 .participant-brand span{margin:0 3px;color:#8795a5}
 .participant-idle{position:absolute;z-index:2;top:44%;left:0;right:0;text-align:center;transform:translateY(-50%);pointer-events:none}
 .participant-idle h1{margin:0;color:#edf1f6;font-size:clamp(38px,3.2vw,60px);font-weight:600;letter-spacing:7px}
@@ -10,7 +11,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#11151b;col
 .participant-idle p{margin:23px 0 0;color:#8997a9;font-size:15px;letter-spacing:1.5px}
 body[data-idle=true] .participant-brand{opacity:0}
 .participant-canvas{display:block;width:100%;height:100%}
-.participant-guide{position:absolute;top:79%;left:12%;right:12%;text-align:center;pointer-events:none;transition:opacity 1.5s ease,transform 1.5s ease}
+.participant-guide{position:absolute;top:79%;left:max(12%,env(safe-area-inset-left));right:max(12%,env(safe-area-inset-right));text-align:center;pointer-events:none;transition:opacity 1.5s ease,transform 1.5s ease}
 .participant-guide.is-quiet{opacity:0;transform:translateY(5px)}
 .participant-stage{margin:0 0 12px;font-size:12px;font-weight:500;letter-spacing:3px;color:#7d8a9b}
 .participant-guide h1{margin:0;font-size:clamp(23px,1.8vw,32px);line-height:1.4;font-weight:600;letter-spacing:1px}
@@ -22,20 +23,39 @@ body[data-idle=true] .participant-brand{opacity:0}
 .participant-confirm-status:empty{display:none}
 body[data-wear-active=true] .participant-guide{top:73%}
 body[data-phase=ready] .participant-guide{top:67%}
-.participant-setup{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding:0 32px 5vh;pointer-events:none}
+.participant-setup{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding:0 max(32px,env(safe-area-inset-right)) max(5vh,env(safe-area-inset-bottom)) max(32px,env(safe-area-inset-left));pointer-events:none}
 .participant-setup section{width:min(540px,80vw);text-align:center;pointer-events:auto}
 .participant-setup h1{margin:0;font-size:28px;font-weight:600;letter-spacing:1px}
 .setup-description,.setup-status{font-size:14px;line-height:1.8;color:#97a3b3}
 .setup-description{margin:13px 0 20px}
 .setup-status{min-height:24px;margin:12px 0 0;color:#bdc9d8}
-button{font:inherit;cursor:pointer}
+button{font:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .participant-enable{padding:13px 25px;border:0;border-radius:12px;background:#2680ed;color:#fff;font-size:15px;font-weight:600;transition:background .2s,transform .2s}
 .participant-enable:hover{background:#3b8ff5}
 .participant-enable:active{transform:scale(.98)}
 .participant-enable:disabled{cursor:wait;opacity:.65}
-.participant-tools{position:absolute;z-index:3;right:28px;bottom:21px;display:flex;gap:18px;opacity:0;transition:opacity .25s}
+.participant-tools{position:absolute;z-index:3;right:max(28px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));display:flex;gap:12px;opacity:0;transition:opacity .25s}
 .participant-tools:hover,.participant-tools:focus-within{opacity:1}
-.participant-tools button{padding:10px 0;border:0;background:transparent;color:#9eabbc;font-size:12px}
+.participant-tools button{min-width:44px;min-height:44px;padding:10px 6px;border:0;background:transparent;color:#9eabbc;font-size:12px}
+.participant-tools:has(.participant-resume:not([hidden])){opacity:1}
+.participant-tools .participant-resume{padding:10px 16px;border-radius:10px;background:#2680ed;color:#fff;font-size:14px}
 button:focus-visible{outline:2px solid #8ec0ff;outline-offset:5px}
 body[data-phase=calibrating_closed] .participant-guide h1{color:#a5b0bf}
+@media(hover:none),(pointer:coarse){.participant-tools{opacity:.8}.participant-tools button{font-size:14px}}
+@media(max-height:800px){
+  .participant-guide{top:auto;bottom:calc(max(12px,env(safe-area-inset-bottom)) + 60px)}
+  body[data-wear-active=true] .participant-guide,body[data-phase=ready] .participant-guide{top:auto;bottom:calc(max(12px,env(safe-area-inset-bottom)) + 60px)}
+  .participant-stage{margin-bottom:8px}.participant-hint{margin-top:8px}.participant-confirm{margin-top:12px}
+}
+@media(orientation:portrait){
+  .participant-brand{top:max(26px,env(safe-area-inset-top));left:max(28px,env(safe-area-inset-left))}
+  .participant-guide{left:max(7%,env(safe-area-inset-left));right:max(7%,env(safe-area-inset-right))}
+  .participant-setup section{width:min(540px,100%)}
+}
+@media(max-height:540px){
+  .participant-brand{top:max(16px,env(safe-area-inset-top));font-size:18px}
+  .participant-idle{top:34%}.participant-setup h1{font-size:23px}.setup-description{margin:8px 0 12px}
+  .participant-guide h1{font-size:20px}.participant-hint{font-size:13px}.participant-confirm{min-height:44px;padding:10px 18px}
+  .participant-stage{margin-bottom:4px}.participant-confirm-status{margin-top:4px}
+}
 @media(prefers-reduced-motion:reduce){.participant-guide,.participant-tools,.participant-enable{transition:none}}

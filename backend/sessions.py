@@ -51,7 +51,7 @@ def idle_state():
         "protocol": single_plan(),
         "presentation": {"dual_screen": False, "cue_mode": "voice", "volume": .35, "sound_enabled": True,
                          "training_scene": "lake-trees", "scene_metadata": visual_scene("lake-trees"),
-                         "cue_request": None, "participant_ready": False, "participant_client_id": None,
+                         "cue_request": None, "guidance_request": None, "participant_ready": False, "participant_client_id": None,
                          "client_id": None, "visible": None, "message": "", "reason": None,
                          "wear_confirmation": empty_wear_confirmation()},
     }
@@ -103,6 +103,8 @@ class SessionService:
         # The participant window may unlock its audio before staff creates a session.
         # Keep this lease across sessions, without putting it in baseline compatibility.
         self._presentation_lease = None
+        self._presentation_generation = 0
+        self._presentation_preview = None
         self._preparation_return_phase = None
 
     def _presentation_status(self, now=None):
@@ -130,6 +132,12 @@ class SessionService:
             self._advance_clock()  # Expired leases must pause before a new claim.
             previous = self._presentation_status()
             self._require(previous["client_id"] in {None, client_id}, "已有其他被试屏接管声音，请关闭该窗口或等待其连接超时")
+            last_client_id = (self._presentation_lease or {}).get("client_id")
+            if last_client_id is not None and last_client_id != client_id:
+                self.state["presentation"]["guidance_request"] = None
+            if previous["client_id"] != client_id:
+                self._presentation_generation += 1
+                self._presentation_preview = None
             wear = self.state["presentation"]["wear_confirmation"]
             if wear["client_id"] not in {None, client_id}:
                 self.state["presentation"]["wear_confirmation"] = empty_wear_confirmation()
@@ -172,8 +180,52 @@ class SessionService:
             if step == "headband":
                 wear["headphones"] = False
             wear.update(updated_at=utc_now())
+            self._set_guidance_request(step)
             self._save_wear_event("participant_wear_reset", step=step, evidence="operator_request")
             return self.snapshot()
+
+    def _set_guidance_request(self, step):
+        self.state["presentation"]["guidance_request"] = {
+            "id": str(uuid4()), "step": step, "session_id": self.state["session_id"]}
+
+    async def presentation_guidance(self, step, session_id=None):
+        """Publish staff guidance through snapshots so different devices receive it."""
+        if step in {"headband", "headphones"}:
+            return await self.presentation_wear_reset(step, session_id)
+        if step != "ready":
+            raise ValueError("Invalid guidance step")
+        async with self.lock:
+            self._require_wear_editable(session_id)
+            wear = self.state["presentation"]["wear_confirmation"]
+            self._require(wear["headband"] and wear["headphones"], "请先完成头环和耳机佩戴确认")
+            self._set_guidance_request(step)
+            self._save_wear_event("participant_guidance", step=step, evidence="operator_request")
+            return self.snapshot()
+
+    async def presentation_preview(self, frame):
+        """Keep the current participant's small preview in RAM, outside snapshots."""
+        async with self.lock:
+            status = self._presentation_status()
+            self._require(status["participant_ready"] and frame["client_id"] == status["client_id"],
+                          "只有当前已就绪的被试屏可以上传预览")
+            self._require(frame["session_id"] == self.state["session_id"], "会话已变化，请刷新后上传预览")
+            self._require(frame["phase"] == self.state["phase"], "阶段已变化，请刷新后上传预览")
+            self._presentation_preview = {"frame": {**frame, "received_at": utc_now()},
+                                          "received_mono": time.monotonic(),
+                                          "generation": self._presentation_generation}
+            return {"accepted": True}
+
+    def latest_presentation_preview(self):
+        preview, status = self._presentation_preview, self._presentation_status()
+        if preview:
+            frame = preview["frame"]
+            if (frame["session_id"] != self.state["session_id"] or frame["client_id"] != status["client_id"]
+                    or preview["generation"] != self._presentation_generation or not status["participant_ready"]):
+                self._presentation_preview = preview = None
+        if not preview:
+            return {"frame": None, "age_ms": None}
+        return {"frame": copy.deepcopy(preview["frame"]),
+                "age_ms": round(max(0, time.monotonic() - preview["received_mono"]) * 1000, 1)}
 
     def _require_wear_editable(self, session_id):
         self._require(session_id == self.state["session_id"], "会话已变化，请刷新佩戴状态后重试")
@@ -321,6 +373,7 @@ class SessionService:
                 initial_wear = empty_wear_confirmation()
             self._request = request
             self.state = idle_state()
+            self._presentation_preview = None
             self.state["presentation"]["wear_confirmation"] = initial_wear
             now = utc_now()
             self.state.update(session_id=str(uuid4()), mode=request.mode, source=request.mode,

@@ -21,6 +21,7 @@ pydantic_core==2.46.5
 pyEDFlib==0.1.42
 Pygments==2.21.0
 pytest==9.1.1
+qrcode==8.2
 scipy==1.18.1
 setuptools==84.0.0
 starlette==1.7.0
@@ -28,12 +29,12 @@ typing-inspection==0.4.4
 typing_extensions==4.16.0
 uvicorn==0.54.0
 websockets==17.1
-winrt-runtime==3.2.1
-winrt-Windows.Devices.Bluetooth==3.2.1
-winrt-Windows.Devices.Bluetooth.Advertisement==3.2.1
-winrt-Windows.Devices.Bluetooth.GenericAttributeProfile==3.2.1
-winrt-Windows.Devices.Enumeration==3.2.1
-winrt-Windows.Devices.Radios==3.2.1
-winrt-Windows.Foundation==3.2.1
-winrt-Windows.Foundation.Collections==3.2.1
-winrt-Windows.Storage.Streams==3.2.1
+winrt-runtime==3.2.1; sys_platform == "win32"
+winrt-Windows.Devices.Bluetooth==3.2.1; sys_platform == "win32"
+winrt-Windows.Devices.Bluetooth.Advertisement==3.2.1; sys_platform == "win32"
+winrt-Windows.Devices.Bluetooth.GenericAttributeProfile==3.2.1; sys_platform == "win32"
+winrt-Windows.Devices.Enumeration==3.2.1; sys_platform == "win32"
+winrt-Windows.Devices.Radios==3.2.1; sys_platform == "win32"
+winrt-Windows.Foundation==3.2.1; sys_platform == "win32"
+winrt-Windows.Foundation.Collections==3.2.1; sys_platform == "win32"
+winrt-Windows.Storage.Streams==3.2.1; sys_platform == "win32"

@@ -1,4 +1,6 @@
 .venv/
+.venv
+.browser-tools/
 __pycache__/
 .pytest_cache/
 runtime/

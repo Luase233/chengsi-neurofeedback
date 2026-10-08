@@ -1,13 +1,18 @@
-﻿param([int]$Port = 8768)
+﻿param([ValidateRange(1, 65535)][int]$Port = 8768)
 $ErrorActionPreference = 'Stop'
 $pidFile = Join-Path $PSScriptRoot 'preview-server.pid'
 if (-not (Test-Path -LiteralPath $pidFile)) { Write-Output 'No managed server.'; return }
-$previewProcessId = [int](Get-Content -LiteralPath $pidFile -Raw).Trim()
+$savedProcessId = (Get-Content -LiteralPath $pidFile -Raw).Trim()
+if ($savedProcessId -notmatch '^\d+$') { throw 'Invalid saved PID. No process was stopped.' }
+$previewProcessId = [int]$savedProcessId
 $serverScript = Join-Path $PSScriptRoot 'server.py'
 $previewProcess = Get-CimInstance Win32_Process -Filter "ProcessId = $previewProcessId" -ErrorAction SilentlyContinue
 if ($previewProcess) {
     if ($previewProcess.CommandLine -notmatch [regex]::Escape($serverScript)) {
         throw 'The saved process id belongs to a different command. No process was stopped.'
+    }
+    if ($previewProcess.CommandLine -notmatch ('--port\s+' + $Port + '(?:\s|$)')) {
+        throw 'The requested port does not match the managed process. No process was stopped. Check -Port.'
     }
     $listener = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue
     if ($listener -and $listener.OwningProcess -notcontains $previewProcessId) {
@@ -32,4 +37,4 @@ if ($previewProcess) {
     }
 }
 Remove-Item -LiteralPath $pidFile
-Write-Output 'Local server stopped.'
+Write-Output 'Managed server stopped.'

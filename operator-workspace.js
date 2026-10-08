@@ -24,6 +24,7 @@
         if(d?.type!=='telemetry'||d.sessionId!==this.session.sessionId||!Array.isArray(d.levels)||d.levels.length!==3||!d.levels.every(finite))return;
         this.telemetry={...d,received:performance.now(),levels:d.levels.map(v=>Math.max(0,Math.min(1,v)))};
       };
+      this.previewTimer=setInterval(()=>this.fetchPreview(),1500);
       this.root.addEventListener('click',event=>{
         const guide=event.target.closest('[data-guide-step]');
         if(guide&&!guide.disabled)this.playGuidance(guide.dataset.guideStep);
@@ -39,14 +40,14 @@
       const sessionId=this.session.snapshot?.session_id??this.session.sessionId??null;
       this.wearRequest=true;this.wearError='';this.session.emit();
       try {
-        if(step==='headband'||step==='headphones'){
-          const data=await this.session.request('/api/presentation/wear-reset',{step,session_id:sessionId});
+        {
+          const data=await this.session.request('/api/presentation/guidance',{step,session_id:sessionId});
           const snapshot=data.snapshot||data;
           if((snapshot.session_id??null)!==sessionId||(this.session.snapshot?.session_id??this.session.sessionId??null)!==sessionId)throw new Error('会话已切换，请在当前会话重新播放佩戴引导。');
           this.session.displayPresentation=snapshot.presentation||null;
           if(snapshot.session_id&&snapshot.session_id===this.session.sessionId)this.session.accept(snapshot);
         }
-        this.channel?.postMessage({step,action:'play',sessionId});
+        // The server broadcasts the request to local windows and paired iPads.
         this.root.querySelectorAll('[data-guide-step]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.guideStep===step)));
       } catch(error) {this.wearError=error.message||'佩戴引导暂时无法播放，请重试。';}
       finally {this.wearRequest=false;this.session.emit();}
@@ -55,6 +56,19 @@
       const presentation=this.session.displayPresentation||this.session.snapshot?.presentation||{};
       const owner=presentation.participant_client_id||presentation.client_id;
       return (frame.sessionId??null)===(this.session.sessionId??null)&&(!owner||frame.clientId===owner);
+    }
+    async fetchPreview(){
+      if(this.previewLoading||this.disposed||document.hidden)return;
+      this.previewLoading=true;
+      try{
+        const data=await this.session.request('/api/presentation/preview');
+        if(this.disposed||!data.frame||!finite(data.age_ms)||data.age_ms>3500)return;
+        const frame=data.frame;
+        // The iPad's wall clock can differ from the operator computer's clock.
+        this.acceptPreview({clientId:frame.client_id,sessionId:frame.session_id,
+          phase:frame.phase,wearStep:frame.wearStep,frame:frame.image,capturedAt:Date.now()-data.age_ms});
+      }catch(_){/* A missing thumbnail never interrupts the training workflow. */}
+      finally{this.previewLoading=false;}
     }
     acceptPreview(frame) {
       if(!this.acceptsPreviewIdentity(frame)||typeof frame.clientId!=='string'||!frame.clientId||!finite(frame.capturedAt)||Math.abs(Date.now()-frame.capturedAt)>4000||typeof frame.frame!=='string'||frame.frame.length>260000||!/^data:image\/jpeg;base64,[A-Za-z0-9+/]+=*$/.test(frame.frame))return;
@@ -161,7 +175,7 @@
       else{ctx.fillStyle='#a2adbc';ctx.font='500 13px "Segoe UI", "Microsoft YaHei", sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('等待被试画面',rect.width/2,rect.height/2);}
       canvas.setAttribute('aria-label',fresh?'被试端当前画面同步预览':'等待被试画面');
     }
-    dispose(){this.previewRequest++;this.channel?.close();this.dialog.remove();}
+    dispose(){this.disposed=true;clearInterval(this.previewTimer);this.previewRequest++;this.channel?.close();this.dialog.remove();}
   }
   window.ResonanceOperatorWorkspace=ResonanceOperatorWorkspace;
 })();

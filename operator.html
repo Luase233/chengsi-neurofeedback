@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="operator.css">
 <link rel="stylesheet" href="operator-workspace.css">
 <link rel="stylesheet" href="operator-signal.css">
+<link rel="stylesheet" href="ipad-connection.css">
 <script src="easy-going-profile.js" defer></script>
 <script src="audio-programs.js" defer></script>
 <script src="audio-engine.js" defer></script>
@@ -18,6 +19,7 @@
 <script src="calibration-cues.js" defer></script>
 <script src="session-client.js" defer></script>
 <script src="operator-workspace.js" defer></script>
+<script src="ipad-connection.js" defer></script>
 <script src="app.js" defer></script>
 </head>
 <body>
@@ -95,6 +97,16 @@
           <div class="operator-preview"><canvas width="480" height="240" role="img" aria-label="被试画面预览"></canvas></div>
           <button type="button" class="operator-open-display session-primary">打开被试窗口<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M11 4h5v5M16 4l-7 7M8 5H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-3"/></svg></button>
           <p>首次使用，请在被试窗口启用声音。</p>
+          <details class="ipad-connection">
+            <summary>连接 iPad</summary>
+            <p class="ipad-connection-status" role="status">正在读取连接地址…</p>
+            <label class="ipad-address-label" hidden>电脑的局域网地址<select class="ipad-address" aria-label="选择 iPad 连接地址"></select></label>
+            <img class="ipad-qr" alt="用 iPad 相机扫描此二维码打开被试网页" hidden width="192" height="192">
+            <input class="ipad-link" aria-label="iPad 配对链接" readonly hidden>
+            <button class="res-small-button ipad-copy" type="button" hidden>复制连接链接</button>
+            <button class="res-small-button ipad-refresh" type="button">刷新地址</button>
+            <p class="ipad-help">电脑和 iPad 连接同一 Wi-Fi。用 iPad 相机扫码，在 Safari 打开后轻点启用声音；请只保留一个被试窗口。</p>
+          </details>
           <label class="operator-setting-field">训练画面<select class="operator-training-scene" aria-label="训练画面"><option value="lake-trees">双树湖景 · 轻微动态</option><option value="lake-house">湖畔小屋 · 轻微动态</option><option value="rings-still">完整三圈 · 静止</option><option value="rings-feedback">三圈 · 动态反馈</option></select></label>
         </section>
         <section class="res-controls" aria-label="声音设置">

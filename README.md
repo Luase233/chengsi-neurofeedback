@@ -1,10 +1,29 @@
 # 灵枢 · 澄思｜脑电神经反馈训练系统
 
-Windows 上运行的 Muse 2 四通道脑电训练系统。包含采集、个体前测、实时专注与放松评分、三层音乐反馈、被试展示、工作人员工作台、训练计划与原始脑电 EDF 导出。
+[v1.1.0 本地验收记录](docs/VALIDATION-v1.1.0.md) · [iPad 连接说明](docs/IPAD.md) · [更新记录](CHANGELOG.md)
+
+**v1.1.0 · Mac / Windows + iPad 网页局域网版。** 电脑运行 Muse 2 四通道脑电训练主程序，iPad 8 或全面屏 iPad 通过 Safari 作为被试端。包含采集、个体前测、实时专注与放松评分、三层音乐反馈、工作人员工作台、训练计划与原始脑电 EDF 导出；也保留电脑本地双窗口模式。
+
+本版增加 iPad 横竖屏与安全区域适配、主程序连接地址与二维码、跨设备佩戴引导和画面预览，以及 Mac 安装／启停入口。训练画面、配色和主要操作流程沿用旧版。iPad 最低要求 **iPadOS 16.4**，不需要 Xcode、模拟器或原生 App。连接步骤、USB 条件与验证限制见 [iPad 连接说明](docs/IPAD.md)，版本变化见 [CHANGELOG](CHANGELOG.md)。
+
+旧版基线 `64a588ad716925e3ed3a8aeb5d357a4f7395912c` 对应 `v1.0.0`；本次版本号为 `v1.1.0`。历史版本应通过独立标签保留，不覆盖旧提交；远端标签和安装包的实际可用状态以 GitHub 页面为准。
 
 这是训练程序的独立复刻版本。仓库不包含研究报告、论文、真实被试数据、个人基线、API 密钥、购买的音乐音轨或 LMMS 编曲工程。
 
 ## 一次安装，双击启动
+
+电脑端需要 **64 位 Python 3.12**。首次安装联网下载依赖，完成后可在本地网络运行；iPad 不需要安装 Python。
+
+### Mac
+
+1. 安装 [Python 3.12 的 macOS 版本](https://www.python.org/downloads/macos/)，下载并完整解压仓库到可写入目录。
+2. 双击 **安装环境.command**，出现 `Environment ready` 后双击 **启动系统.command**，浏览器打开工作人员工作台。
+3. 让 iPad 与 Mac 连接同一局域网，在工作台的 iPad 连接区域扫码打开被试端，并在 iPad 点击 **启用声音并进入展示**。
+4. 结束后双击 **关闭系统.command**。如系统不允许双击脚本，终端运行 `chmod +x *.sh *.command`，然后依次运行 `./setup.sh` 和 `./start.sh`。
+
+详细参数、Mac 网络共享及安装排错见 [iPad 连接说明](docs/IPAD.md)。
+
+### Windows
 
 1. 准备 Windows 10/11 **64 位**电脑，安装 [Python 3.12（64 位）](https://www.python.org/downloads/windows/)。安装时启用 Python Launcher（`py`）和 PATH。
 2. 点击本仓库 **Code → Download ZIP** 并完整解压，或者：
@@ -15,14 +34,16 @@ Windows 上运行的 Muse 2 四通道脑电训练系统。包含采集、个体�
    ```
 
 3. 双击 **安装环境.cmd**。首次安装需要联网，会在本文件夹创建 `.venv` 并安装锁定的依赖；出现 `Environment ready` 即完成。
-4. 双击 **启动系统.cmd**，浏览器自动打开工作人员工作台。
-5. 在工作台打开被试窗口；或访问下面的地址。在被试窗口点击 **启用声音并进入展示**，把两个窗口分别放在工作人员和被试可见的位置。
+4. 双击 **启动系统.cmd**，默认开启 iPad 局域网模式，浏览器自动打开工作人员工作台。
+5. 使用 iPad 时，让两台设备连同一局域网，在工作台的 iPad 连接区域扫码。使用同一电脑的双窗口模式时，在工作台打开被试窗口；或访问下面的本机地址。在被试端点击 **启用声音并进入展示**，把工作人员和被试页面放在各自可见的位置。
 
 | 页面 | 本机地址 | 用途 |
 | --- | --- | --- |
-| 工作人员工作台 | http://127.0.0.1:8768/operator.html | 连接、佩戴确认、质量检查、前测、训练与导出 |
-| 被试端 | http://127.0.0.1:8768/participant.html | 佩戴动画、语音、前测与安静的训练画面 |
-| 声场试听 | http://127.0.0.1:8768/ | 不接头环试听三层音乐与反馈 |
+| 工作人员工作台 | [打开工作台](http://127.0.0.1:8768/operator.html) | 仅电脑本机使用，管理连接、佩戴确认、质量检查、前测、训练与导出 |
+| 本机被试端 | [打开本机被试端](http://127.0.0.1:8768/participant.html) | 同一电脑上的佩戴动画、语音、前测与训练画面 |
+| 声场试听 | [打开试听](http://127.0.0.1:8768/) | 仅电脑本机使用，不接头环试听三层音乐与反馈 |
+
+**iPad 请使用工作台生成的完整配对链接／二维码。** iPad 中的 `127.0.0.1` 指向 iPad 自己，不能连接电脑；主程序会列出电脑的局域网 IP。普通 USB 充电／同步线不是通用网络连接，本版优先使用 LAN，支持条件见 [有线连接说明](docs/IPAD.md#数据线与有线网络的边界)。
 
 结束使用时双击 **关闭系统.cmd**。关闭浏览器不会自动停止后端。请把运行文件夹放在允许写入的位置，不要直接在 ZIP 内打开，也不要放进 Program Files。
 
@@ -42,6 +63,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\setup.ps1 -Python "C:\实�
 
 路径是示例占位，请替换为自己的 **Python 3.12 x64** 可执行文件。运行系统不需要 Node.js、LMMS、付费插件或 TTS API。
 
+只在电脑本机使用时，Windows 运行 `.\launch.ps1 -LocalOnly`，Mac 运行 `./start.sh --local-only`。更改模式前先停止原服务。直接运行 `python server.py` 仍默认只监听本机；开发时用 `python server.py --lan` 显式开启 LAN。
+
 ## 没有头环也能验证流程
 
 工作台选择 **模拟全流程**，填写被试编号，选择曲目和训练画面，点击连接。模拟数据由程序明确生成，不冒充真实脑电；模拟记录与实机记录分开保存，不能当作实证训练结果。
@@ -51,8 +74,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\setup.ps1 -Python "C:\实�
 ## Muse 2 实机准备
 
 - 电脑需有可用的 **BLE 蓝牙适配器**；板载蓝牙可以使用。不要求购买专用接收器。没有蓝牙的电脑需要普通兼容的 BLE 适配器。
-- 开启 Windows 蓝牙；头环开机、拔掉充电线、靠近电脑。断开手机 Muse App 等其他程序对头环的连接。
-- 在工作台选择 **Muse 2 实机**，扫描并选择设备，再连接。采集通过 BrainFlow 的 Windows 原生 BLE 实现，由项目直接连接，不需要先在 Windows 设置中完成配对。
+- 开启电脑蓝牙；Mac 首次使用还需允许相关终端／Python 进程的蓝牙访问。头环开机、拔掉充电线、靠近电脑，断开手机 Muse App 等其他程序对头环的连接。
+- 在工作台选择 **Muse 2 实机**，扫描并选择设备，再连接。Windows 采集沿用 BrainFlow 原生 BLE 路径，不需要先在 Windows 设置中完成配对。新增 Mac 运行入口不代表已经完成 Mac + Muse 实机验收，仍需在目标电脑验证采集与权限。
 - 四路通道均参与质量检查：**TP9、AF7、AF8、TP10**。额头触点、中央参考触点与两侧靠耳部的接触垫都要接触皮肤，避开头发。戴好耳机后重新确认耳部触点仍贴合。
 - 确认佩戴和信号后再启动闭眼前测。不要在头环放桌上时做个人前测。
 
@@ -91,7 +114,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\setup.ps1 -Python "C:\实�
 
 ## 数据与 EDF
 
-运行后数据只保存在本机 `runtime/`，此目录已被 Git 忽略。每个会话包含原始采样、计算特征、状态事件和会话元数据；个人基线也存于该目录下。
+运行后数据默认只保存在主程序电脑的 `runtime/`，此目录已被 Git 忽略。每个会话包含原始采样、计算特征、状态事件和会话元数据；个人基线也存于该目录下。iPad 通过配对接收当前展示状态，不承担数据保存或历史导出；画面预览只用于当前工作台显示。
 
 - **导出完整记录**：下载当前会话 ZIP。
 - **导出原始脑电 EDF**：下载包含原始数据、按阶段/连续片段拆分的 EDF、清单及说明的 ZIP。保留四路原始采样，缺口不填造假数据。
@@ -108,28 +131,39 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\setup.ps1 -Python "C:\实�
 | 多路质量异常 | 先检查中央参考、额头和两侧耳部接触是否被头发隔开；松开手、自然静坐，再看工作台。不要为了开始训练而放宽质量阈值。 |
 | 音乐/提示无声，开始按钮等待 | 被试端先点击启用声音，保持展示窗口打开可见；只保留一个被试播放窗口，避免声音所有权冲突。 |
 | 蓝牙耳机短提示不完整 | 项目保留蓝牙输出唤醒与缓冲流程；仍异常时用有线输出对照排查。Windows 声音输出不要切到通话模式。 |
-| 8768 端口占用 | 先关闭其他系统副本。需要其他端口时用 `.\start.ps1 -Port 8770`，并把两个页面都打开在同一新端口；一键启动固定使用 8768。 |
+| 8768 端口占用 | 先关闭其他系统副本。Windows 用 `.\launch.ps1 -Port 8770`，Mac 用 `./start.sh --port 8770`；关闭时传入相同端口，iPad 重新使用工作台对应链接。默认双击入口使用 8768。 |
+| iPad 不能连接或配对失效 | 检查同一局域网、LAN 启动模式、电脑防火墙及是否用了完整配对链接；服务重启后重新扫码。详见 [iPad 排错](docs/IPAD.md#排错)。 |
+| iPad 锁屏／切换应用后无声 | 回到 Safari，点击需要时出现的 **恢复声音**，确认被试端就绪，再由工作人员继续。 |
 | 改了曲目目录还没显示 | 按资源说明注册本地曲目并刷新两个页面。不要直接用文件路径打开 HTML，必须通过本机 HTTP 后端。 |
 | 新电脑分数不同 | 用相同被试、算法、基线和训练条件比较。分数属于个人状态指标，不是智力、注意能力诊断或治疗结论。 |
 
-错误日志是本机 `backend-server-error.log`。分享排错记录前删除被试信息和设备地址。
+错误日志是主程序电脑上的 `backend-server-error.log`。分享排错记录前删除被试信息、设备地址和完整配对链接。
 
 ## 开发与必要检查
 
 前端是原生 HTML/CSS/Canvas/Web Audio，不需要 npm 构建。后端为 FastAPI + BrainFlow + SciPy，WebSocket 每 0.5 秒推送权威状态。评分以四路数据的同侧差分构建特征，使用因果滤波、2 秒窗与 1 秒步进；专注原始特征为 beta/(alpha+theta)，放松为 alpha/beta，最终个人分数用前测参数映射。确切版本和参数随会话保存。
 
-```powershell
-.\.venv\Scripts\python.exe -m pytest tests/test_public_assets.py tests/test_daily_training_plan.py -q
-```
-
-可选安装 Node.js 后检查提示音与每日界面契约（不使用浏览器自动化）：
+Windows 的后端回归检查：
 
 ```powershell
-node --test tests/test-calibration-cues.cjs tests/test-daily-ui.cjs
+.\.venv\Scripts\python.exe -m pytest -q
 ```
 
-更多 Python 测试在 `tests/`；其中音乐选择测试不需要外部购买音频。检查只使用临时模拟数据，不连接头环。实际听感、BLE 和电极质量仍需在目标电脑实测。
+Mac 的后端检查与启动脚本语法检查：
 
-目录入口：`server.py` 为后端启动，`backend/` 为采集/计算/会话/存储，`operator.html` 为工作台，`participant.html` 为被试端，`audio-programs.js` 为曲目目录，`assets/` 为运行资源，`setup.ps1` 和 `launch.ps1` 为安装启动脚本。
+```bash
+./.venv/bin/python -m pytest -q
+for script in setup.sh start.sh stop.sh *.command; do bash -n "$script" || exit; done
+```
+
+新增 `tests/test_lan.py` 检查 LAN 配对、Host / Origin / peer 访问边界、远端权限以及跨设备引导与预览。可选安装 Node.js 后检查 iPad 客户端、提示音与每日界面契约：
+
+```powershell
+node --test tests/test-participant-ipad.cjs tests/test-calibration-cues.cjs tests/test-daily-ui.cjs
+```
+
+上述命令说明如何验证，不代表当前版本的最终测试结果。检查只使用临时模拟数据，不连接头环；本地浏览器视口或 WebKit 流程验证也不等同于 iPad 真机验收。实际听感、触摸、BLE、电极质量、Windows 运行环境和 USB 网络仍需在目标设备实测。测试范围与限制见 [CHANGELOG](CHANGELOG.md) 和 [本地验证步骤](docs/IPAD.md#无实机时的本地流程验证)。
+
+目录入口：`server.py` 为后端启动，`backend/` 为采集/计算/会话/存储，`operator.html` 为工作台，`participant.html` 为被试端，`ipad-connection.js` 为本机配对面板，`audio-programs.js` 为曲目目录，`assets/` 为运行资源。Windows 安装启动使用 `setup.ps1` / `launch.ps1`，Mac 使用 `setup.sh` / `start.sh`。
 
 仓库公开可见；公开可见不等于为所有源码及媒体授予统一开源许可。第三方软件遵循各自许可证，媒体来源与分发范围见 [资源说明](docs/ASSETS.md)。

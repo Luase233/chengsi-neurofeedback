@@ -9,15 +9,35 @@
   const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const smooth=value=>{const x=Math.max(0,Math.min(1,value));return x*x*(3-2*x);};
   const view={phaseStarted:performance.now(),wearStep:'waiting',wearStarted:0,wearPlaying:false,
-    eye:1,awaitingEnd:false,endCount:0,levels:[0,0,0],energy:[0,0,0],exitLevels:[0,0,0],settling:false,guidanceOverride:false,lastTelemetry:0,lastPreview:0};
+    eye:1,awaitingEnd:false,endCount:0,levels:[0,0,0],energy:[0,0,0],exitLevels:[0,0,0],settling:false,guidanceOverride:false,lastTelemetry:0,lastPreview:0,lastRemotePreview:0};
   const guidanceChannel=typeof BroadcastChannel==='function'?new BroadcastChannel('chengsi-ui-guidance'):null;
-  const clientId=crypto.randomUUID(),policy=new ResonanceFeedbackPolicy();
+  // randomUUID requires HTTPS; getRandomValues also works on the local HTTP LAN.
+  function randomId(){
+    if(typeof crypto.randomUUID==='function')return crypto.randomUUID();
+    const bytes=crypto.getRandomValues(new Uint8Array(16));
+    bytes[6]=(bytes[6]&15)|64;bytes[8]=(bytes[8]&63)|128;
+    return [...bytes].map((byte,index)=>([4,6,8,10].includes(index)?'-':'')+byte.toString(16).padStart(2,'0')).join('');
+  }
+  function participantClientId(){
+    const key='chengsi-participant-client-id';
+    try{
+      const saved=sessionStorage.getItem(key);
+      if(typeof saved==='string' && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(saved))return saved;
+    }catch(_){}
+    const id=randomId();
+    // Session storage survives this tab's refresh while keeping other tabs separate.
+    // Safari privacy settings can deny storage; the server can rebind an expired lease.
+    try{sessionStorage.setItem(key,id);}catch(_){}
+    return id;
+  }
+  const clientId=participantClientId(),policy=new ResonanceFeedbackPolicy();
   const audio=new ResonanceAudio({programId:'clear-current-v04'});
   audio.setMuted(true);audio.setScore(0,false);
   const state={snapshot:null,receivedAt:0,entered:false,lease:false,online:false,busy:false,
-    problem:'',cueProblem:false,leaseConflict:false,closed:false,presentation:policy.result('inactive'),visualTime:3,
+    problem:'',cueProblem:false,audioProblem:false,leaseConflict:false,closed:false,presentation:policy.result('inactive'),visualTime:3,
     currentCue:null,cueEpoch:0,recoveryEpoch:0,recoveryPending:false,seenCues:new Set(),waitingAnnounced:new Set(),waitingPending:false,wearBusy:false,wearError:'',heartbeatBusy:false,musicTask:null,musicDirty:false,
-    stateRequest:null,socket:null,lastHeartbeat:0,lastReadySent:null,heartbeatQueued:false};
+    stateRequest:null,socket:null,lastHeartbeat:0,lastReadySent:null,heartbeatQueued:false,
+    transportReady:false,pairingTask:null,previewBusy:false,seenGuidance:new Set(),fullscreenHint:''};
   const cues=window.CalibrationCues;
   const currentSettings=()=>state.snapshot?.presentation || {};
   const phase=()=>state.snapshot?.phase || 'idle';
@@ -28,9 +48,15 @@
       || phase()==='paused' && ['training','preparing_training','resting'].includes(state.snapshot?.resume_phase));
   const audioReady=()=>{
     const cue=cues.diagnostics(),music=audio.getState();
-    return state.entered && !state.cueProblem && !state.recoveryPending && !state.waitingPending && !cue.completionFailure
+    return state.entered && !document.hidden && !state.cueProblem && !state.recoveryPending && !state.waitingPending && !cue.completionFailure
       && !(phase()==='ready' && (cue.cueBusy ?? cue.instructionBusy)) && cue.unlocked && cue.state==='running' && !cue.disposed
-      && music.ready && music.contextState!=='closed';
+      && music.ready && !['closed','interrupted'].includes(music.contextState)
+      && (!music.playing || music.contextState==='running');
+  };
+  const audioNeedsGesture=()=>{
+    const cue=cues.diagnostics(),music=audio.getState();
+    return state.entered && (state.audioProblem || cue.state!=='running' || music.contextState==='interrupted'
+      || music.playing && music.contextState!=='running');
   };
   const phaseGuidance={
     preparing_closed:['闭眼前测','先听说明，保持睁眼',''],
@@ -76,6 +102,12 @@
     $('.participant-enable').disabled=state.busy;
     $('.participant-enable').textContent=state.busy?'正在准备声音…':'启用声音并进入展示';
     $('.setup-status').textContent=state.problem;
+    $('.participant-resume').hidden=!audioNeedsGesture();
+    $('.participant-resume').disabled=state.busy;
+    const status=$('.participant-status');
+    status.textContent=state.entered?(!state.online?state.problem || '连接已中断，正在重连…':!state.lease?state.problem:
+      audioNeedsGesture()?'声音已暂停，请点按“恢复声音”。':state.fullscreenHint):'';
+    status.hidden=!status.textContent;
     const guide=$('.participant-guide');
     let guidance=displayOwnsAudio() && !view.guidanceOverride?(phaseGuidance[phase()] || wearGuidance()):wearGuidance();
     if(currentSettings().cue_mode==='tone' && phase().startsWith('preparing_'))guidance=[phase()==='preparing_training'?'训练准备':'前测准备','请按工作人员说明准备',''];
@@ -94,13 +126,13 @@
     confirm.textContent=state.wearBusy?'正在确认…':view.wearStep==='headphones'?'耳机已戴好，耳后触点仍贴合':'头环已戴好';
     $('.participant-confirm-status').textContent=wearActive?state.wearError:'';
   }
-  guidanceChannel?.addEventListener('message',event=>{
-    const message=event.data;
-    if(!message || message.action!=='play' || !['headband','headphones','ready'].includes(message.step))return;
+  function receiveGuidance(message){
+    if(!message || !['headband','headphones','ready'].includes(message.step))return;
     if(message.sessionId!==undefined && message.sessionId!==(state.snapshot?.session_id || null))return;
     if(['preparing_closed','calibrating_closed','preparing_open','calibrating_open','preparing_training','training','resting'].includes(phase()))return;
     showWearStep(message.step);
-  });
+  }
+  guidanceChannel?.addEventListener('message',event=>{if(event.data?.action==='play')receiveGuidance(event.data);});
   async function request(url,body){
     const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),3000);
     try{
@@ -110,6 +142,25 @@
       if(!response.ok){const error=new Error(data.detail || data.error?.message || '本地服务暂不可用');error.status=response.status;error.snapshot=data.snapshot;throw error;}
       return data.snapshot || data;
     }finally{clearTimeout(timeout);}
+  }
+  let pairToken=new URL(location.href).searchParams.get('pair');
+  function initializeConnection(){
+    if(state.transportReady)return Promise.resolve();
+    if(state.pairingTask)return state.pairingTask;
+    state.pairingTask=(async()=>{
+      if(pairToken){
+        await request('/api/pair',{token:pairToken});
+        const url=new URL(location.href);url.searchParams.delete('pair');
+        history.replaceState(null,'',url.pathname+url.search+url.hash);pairToken=null;
+      }
+      state.transportReady=true;
+      await refreshState();connectSocket();
+    })().catch(error=>{
+      state.problem=error.status===401 || error.status===403?'配对链接已失效，请工作人员重新生成并打开。':
+        '无法连接主程序，请检查 iPad 和电脑的网络连接后重试。';
+      renderText();throw error;
+    }).finally(()=>{state.pairingTask=null;});
+    return state.pairingTask;
   }
   function cancelCue(){
     state.cueEpoch++;
@@ -142,10 +193,12 @@
   function context(){
     const s=state.snapshot,age=performance.now()-state.receivedAt;
     const windowEnd=s?.feedback?.window_end;
-    const sentAge=s?.sent_at?Date.now()-Date.parse(s.sent_at):age;
-    const feedbackAge=Number.isFinite(s?.feedback?.age_ms)?s.feedback.age_ms+age:sentAge;
-    const sampleAge=s?.mode==='live' && Number.isFinite(windowEnd)?Date.now()-windowEnd*1000:0;
-    const stale=!s || !state.online || age>2500 || !Number.isFinite(sentAge) || sentAge>2500 || feedbackAge>2500 || sampleAge>2500;
+    // Compare server timestamps with each other, never with the iPad's clock.
+    const sentAt=s?.sent_at?Date.parse(s.sent_at):null;
+    const feedbackAge=Number.isFinite(s?.feedback?.age_ms)?Math.max(0,s.feedback.age_ms)+age:age;
+    const sampleAge=s?.mode==='live' && Number.isFinite(windowEnd) && Number.isFinite(sentAt)
+      ?Math.max(0,sentAt-windowEnd*1000)+age:0;
+    const stale=!s || !state.online || age>2500 || sentAt!==null && !Number.isFinite(sentAt) || feedbackAge>2500 || sampleAge>2500;
     const valid=s?.phase==='training' && !stale && s?.quality?.valid===true && s?.feedback?.valid===true && Number.isFinite(s.feedback.score);
     return {mode:s?.mode || 'live',phase:s?.phase || 'idle',snapshot:s,online:state.online,stale,valid,score:valid?s.feedback.score:null};
   }
@@ -164,13 +217,13 @@
         const id=state.snapshot?.program_id;
         if(id && ResonanceAudio.programs.some(program=>program.id===id) && audio.getState().programId!==id) await audio.selectProgram(id);
         const currentCue=cues.diagnostics();
-        const shouldPlay=displayOwnsAudio() && phase()==='training' && currentSettings().sound_enabled===true && !(currentCue.cueBusy ?? currentCue.instructionBusy);
+        const shouldPlay=!state.audioProblem && displayOwnsAudio() && phase()==='training' && currentSettings().sound_enabled===true && !(currentCue.cueBusy ?? currentCue.instructionBusy);
         audio.setMuted(!shouldPlay);
         if(!audio.getState().ready)continue;
         if(shouldPlay && !audio.getState().playing)await audio.resume();
         else if(!shouldPlay && audio.getState().playing)await audio.pause();
       }
-    })().catch(()=>{state.problem='声音尚未就绪，请工作人员退出展示后重新启用。';state.cueProblem=true;silence();renderText();})
+    })().catch(()=>{state.problem='声音尚未就绪，请点按“恢复声音”。';state.audioProblem=true;state.cueProblem=true;silence();renderText();})
       .finally(()=>{state.musicTask=null;});
   }
   function currentRequestKey(){
@@ -220,7 +273,7 @@
     if(state.seenCues.has(key) || !audioReady())return;
     state.seenCues.add(key);
     const task=state.currentCue={key,id:cue.id,sessionId:state.snapshot.session_id,stage:cue.stage,
-      epoch:state.cueEpoch,commandId:crypto.randomUUID(),finished:false,ackBusy:false,acked:false};
+      epoch:state.cueEpoch,commandId:randomId(),finished:false,ackBusy:false,acked:false};
     Promise.resolve(cues.playInstruction(cue.stage,cue.mode || currentSettings().cue_mode || 'voice')).then(complete=>{
       if(!cueStillCurrent(task))return;
       if(complete===true){task.finished=true;acknowledge(task);}
@@ -248,6 +301,7 @@
       && !(previous.phase==='calibrating_closed' && snapshot.phase==='closed_complete');
     if(changedSession){
       cancelCue();cancelPlayback();policy.clear();state.waitingAnnounced.clear();
+      state.seenGuidance.clear();
       if(previous?.session_id){view.wearStep='waiting';view.wearPlaying=false;state.wearError='';}
     }
     if(changedSession || previous?.phase!==snapshot.phase){
@@ -261,6 +315,17 @@
       if(changedSession){view.eye=snapshot.phase==='calibrating_closed'?0:1;view.levels=[0,0,0];}
     }
     state.snapshot=snapshot;state.receivedAt=performance.now();state.online=true;
+    const guidance=currentSettings().guidance_request;
+    const wear=currentSettings().wear_confirmation;
+    // A new owner may first see the prior screen's instruction before claiming
+    // the lease. Honor the server's withdrawal instead of keeping its ready view.
+    if(previous?.presentation?.guidance_request && !guidance && !(wear?.headband && wear?.headphones)){
+      view.wearStep='waiting';view.wearPlaying=false;view.guidanceOverride=false;state.wearError='';
+    }
+    if(guidance?.id && !state.seenGuidance.has(guidance.id)){
+      state.seenGuidance.add(guidance.id);
+      receiveGuidance({step:guidance.step,sessionId:guidance.session_id});
+    }
     if(changedSession || oldRequest!==currentRequestKey()){
       state.cueProblem=false;
       if(currentRequestKey() && state.recoveryPending)cancelPlayback();
@@ -275,13 +340,15 @@
     reportReadiness();
   }
   async function refreshState(){
-    if(state.stateRequest || state.closed)return state.stateRequest;
-    state.stateRequest=request('/api/state').then(accept).catch(()=>{state.online=false;invalidateLease('请工作人员检查本地服务是否开启。');})
+    if(state.stateRequest || state.closed || !state.transportReady)return state.stateRequest;
+    state.stateRequest=request('/api/state').then(accept).catch(error=>{
+      state.online=false;invalidateLease([401,403].includes(error.status)?'配对已失效，请工作人员重新生成二维码并打开。':'连接已中断，请检查主程序与网络。');
+    })
       .finally(()=>{state.stateRequest=null;});
     return state.stateRequest;
   }
   async function heartbeat(){
-    if(state.heartbeatBusy || !state.entered || state.closed)return;
+    if(state.heartbeatBusy || !state.entered || state.closed || !state.transportReady)return;
     state.heartbeatBusy=true;
     try{
       const ready=audioReady();state.lastReadySent=ready;
@@ -305,7 +372,7 @@
     if(state.heartbeatBusy)state.heartbeatQueued=true;else heartbeat();
   }
   function connectSocket(){
-    if(state.closed)return;
+    if(state.closed || !state.transportReady)return;
     const url=new URL('/ws/live',location.href);url.protocol=url.protocol==='https:'?'wss:':'ws:';
     const socket=state.socket=new WebSocket(url);
     socket.onopen=()=>refreshState();
@@ -317,21 +384,23 @@
     socket.onclose=()=>{if(!state.closed)setTimeout(connectSocket,1000);};
     socket.onerror=()=>{};
   }
-  $('.participant-enable').addEventListener('click',async()=>{
+  async function enableSound(){
     if(state.busy)return;
-    state.busy=true;state.problem='';state.cueProblem=false;
+    state.busy=true;state.problem='';state.cueProblem=false;state.audioProblem=false;
     if(phase()==='ready')state.waitingAnnounced.clear();
     renderText();
     try{
       // Both resume attempts begin inside the gesture before any HTTP awaits.
       audio.setMuted(true);
       const cueUnlock=cues.unlock(),musicUnlock=audio.start();
-      const [ready]=await Promise.all([cueUnlock,musicUnlock]);
+      const [ready]=await Promise.all([cueUnlock,musicUnlock,initializeConnection()]);
       if(!ready)throw new Error('声音未启用，请再次点击。');
       state.entered=true;await heartbeat();syncMusic();
     }catch(error){state.problem=error.message || '声音未启用，请工作人员重试。';state.entered=false;silence();}
     finally{state.busy=false;renderText();}
-  });
+  }
+  $('.participant-enable').addEventListener('click',enableSound);
+  $('.participant-resume').addEventListener('click',enableSound);
   $('.participant-confirm').addEventListener('click',async()=>{
     if(state.wearBusy || view.wearPlaying || !state.entered || !state.lease || !wearPhaseAllowed() || !['headband','headphones'].includes(view.wearStep))return;
     const step=view.wearStep,sessionId=state.snapshot?.session_id || null;
@@ -353,9 +422,24 @@
   }
   $('.participant-exit').addEventListener('click',leave);
   $('.participant-fullscreen').addEventListener('click',()=>{
-    const action=document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();action.catch(()=>{});
+    const fullscreen=document.fullscreenElement || document.webkitFullscreenElement;
+    const target=fullscreen?document:document.documentElement;
+    const method=fullscreen?(document.exitFullscreen || document.webkitExitFullscreen):
+      (target.requestFullscreen || target.webkitRequestFullscreen);
+    const showHint=()=>{state.fullscreenHint='可在 Safari 分享菜单中“添加到主屏幕”，再打开以获得全屏展示。';renderText();};
+    if(!method){showHint();return;}
+    try{Promise.resolve(method.call(target)).catch(showHint);}catch(_){showHint();}
   });
-  document.addEventListener('fullscreenchange',()=>{$('.participant-fullscreen').textContent=document.fullscreenElement?'退出全屏':'全屏';});
+  const updateFullscreen=()=>{
+    $('.participant-fullscreen').textContent=document.fullscreenElement || document.webkitFullscreenElement?'退出全屏':'全屏';
+    state.fullscreenHint='';renderText();
+  };
+  document.addEventListener('fullscreenchange',updateFullscreen);
+  document.addEventListener('webkitfullscreenchange',updateFullscreen);
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden)refreshState();
+    heartbeat();renderText();
+  });
   let last=performance.now(),lastDraw=0;
   let stillRingKey='';
   function drawRings(width,height,levels,energy,{scale=1,opacity=1,particles=true,linear=false,still=false}={}){
@@ -394,13 +478,15 @@
     ctx.beginPath();ctx.moveTo(-17,0);ctx.lineTo(-5,12);ctx.lineTo(20,-14);ctx.stroke();ctx.restore();
   }
   function publishPreview(now){
-    if(!guidanceChannel || !state.online || now-view.lastPreview<750 || !canvas.width || !canvas.height)return;
+    const local=guidanceChannel && now-view.lastPreview>=750;
+    const remote=state.transportReady && state.entered && state.lease && !document.hidden && !state.previewBusy && now-view.lastRemotePreview>=2000;
+    if((!local && !remote) || !state.online || !canvas.width || !canvas.height)return;
     const owner=currentSettings().participant_client_id || currentSettings().client_id;
     if(owner && owner!==clientId)return;
     const rect=canvas.getBoundingClientRect();if(!rect.width || !rect.height)return;
     view.lastPreview=now;
-    const scale=480/rect.width;
-    previewCanvas.width=480;previewCanvas.height=Math.round(rect.height*scale);
+    const scale=Math.min(480/rect.width,640/rect.height);
+    previewCanvas.width=Math.max(1,Math.round(rect.width*scale));previewCanvas.height=Math.max(1,Math.round(rect.height*scale));
     previewCtx.drawImage(canvas,0,0,previewCanvas.width,previewCanvas.height);
     // Compose the actual visible instruction and buttons onto the same canvas
     // image. This stays local to the two same-origin windows, at thumbnail size.
@@ -420,8 +506,18 @@
     paintText('.participant-stage');paintText('.participant-guide h1');paintText('.participant-hint');
     paintText('.participant-confirm',{button:true});paintText('.participant-confirm-status');
     paintText('.participant-setup h1');paintText('.setup-description');paintText('.participant-enable',{button:true});paintText('.setup-status');
-    guidanceChannel.postMessage({type:'preview-frame',sessionId:state.snapshot?.session_id || null,clientId,
-      phase:phase(),wearStep:view.wearStep,capturedAt:Date.now(),frame:previewCanvas.toDataURL('image/jpeg',.7)});
+    let frame=previewCanvas.toDataURL('image/jpeg',.7);
+    if(local)guidanceChannel.postMessage({type:'preview-frame',sessionId:state.snapshot?.session_id || null,clientId,
+      phase:phase(),wearStep:view.wearStep,capturedAt:Date.now(),frame});
+    if(remote){
+      view.lastRemotePreview=now;
+      if(frame.length>100*1024)frame=previewCanvas.toDataURL('image/jpeg',.4);
+      if(frame.length>100*1024)return;
+      state.previewBusy=true;
+      request('/api/presentation/preview',{client_id:clientId,session_id:state.snapshot?.session_id || null,
+        phase:phase(),wearStep:view.wearStep,capturedAt:Date.now(),image:frame})
+        .catch(()=>{}).finally(()=>{state.previewBusy=false;});
+    }
   }
   function frame(now,background=false){
     if(state.closed)return;
@@ -481,7 +577,7 @@
         const duration=headphones?6:16,elapsed=view.wearPlaying?Math.min(duration,(now-view.wearStarted)/1000):duration;
         if(elapsed>=duration)view.wearPlaying=false;
         const w=Math.min(rect.width*.65,760),h=Math.min(rect.height*.67,585);
-        ctx.save();ctx.translate((rect.width-w)/2,rect.height*.44-h/2);
+        ctx.save();ctx.translate((rect.width-w)/2,rect.height*(rect.height<=800?.40:.44)-h/2);
         drawWearGuide(ctx,w,h,state.visualTime,{accent:'#448ff2',foreground:'#edf1f6',muted:'#7d8a9b',surface:'#11151b',
           assembly:true,headphones,sequenceTime:elapsed+(headphones?17:0),motion:reducedMotion?0:1});
         ctx.restore();
@@ -499,6 +595,7 @@
   const heartbeatTimer=setInterval(heartbeat,1000),feedbackTimer=setInterval(refreshFeedback,200),pollTimer=setInterval(refreshState,3000);
   const previewTimer=setInterval(()=>{if(document.hidden && !state.closed)frame(performance.now(),true);},1000);
   window.participantDiagnostics=()=>({clientId,entered:state.entered,lease:state.lease,ready:audioReady(),phase:phase(),
+    transportReady:state.transportReady,audioNeedsGesture:audioNeedsGesture(),
     trainingScene:trainingScene(),scene:TrainingScenes.diagnostics(),
     sessionId:state.snapshot?.session_id || null,visible:!document.hidden,visualGuide:displayOwnsAudio() && phase()==='calibrating_open',
     visualLevels:[...view.levels],visualStep:view.wearStep,eyeOpenness:view.eye,waitingPending:state.waitingPending,wearConfirmation:currentSettings().wear_confirmation,
@@ -508,5 +605,7 @@
     state.closed=true;clearInterval(heartbeatTimer);clearInterval(feedbackTimer);clearInterval(pollTimer);clearInterval(previewTimer);
     state.socket?.close();guidanceChannel?.close();cancelCue();cues.dispose();audio.dispose();
   });
-  renderText();refreshState();connectSocket();requestAnimationFrame(frame);
+  // Safari may restore this disposed document from its back/forward cache.
+  window.addEventListener('pageshow',event=>{if(event.persisted && state.closed)location.reload();});
+  renderText();initializeConnection().catch(()=>{});requestAnimationFrame(frame);
 })();
