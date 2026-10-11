@@ -1,4 +1,4 @@
-// Runtime catalog. Optional licensed programs are registered locally.
+// Runtime catalog. Bundled and locally registered licensed programs.
 window.CHENGSI_AUDIO_PROGRAMS = [
   {
     "id": "clear-current-v01",
@@ -53,6 +53,25 @@ window.CHENGSI_AUDIO_PROGRAMS = [
       "bpm": 96,
       "offsetSeconds": 0,
       "beatsPerBar": 4
+    }
+  },
+  {
+    "id": "easy-going",
+    "title": "Easy Going · 分层反馈",
+    "metadata": "easy-going/metadata.json",
+    "feedbackProfile": "easy-going-continuous-v2",
+    "beatGrid": {
+      "bpm": 96,
+      "offsetSeconds": 0.0,
+      "beatsPerBar": 4,
+      "source": "PCM onset-grid analysis; author BPM and meter unavailable",
+      "verifiedMethod": "2048-frame positive spectral flux, 220-frame hop; all stems strongly align to 0.15625 s subdivisions and reject 64/128 BPM candidates",
+      "quarterNoteSeconds": 0.625,
+      "quantizationGroupSeconds": 2.5,
+      "loopBeats": 96,
+      "loopQuantizationGroups": 24,
+      "meterVerified": false,
+      "note": "Four-beat groups are an engineering trigger grid, not a claim that the author confirmed the meter or downbeat"
     }
   }
 ];

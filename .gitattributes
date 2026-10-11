@@ -10,4 +10,5 @@
 *.wav binary
 *.ogg binary
 *.jpg binary
+*.png binary
 *.webp binary

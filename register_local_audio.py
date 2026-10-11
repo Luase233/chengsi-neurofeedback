@@ -1,4 +1,4 @@
-"""Register already-prepared optional local audio, without publishing its files."""
+"""Register prepared audio in the runtime catalog; verify licensing before publishing."""
 import argparse
 import json
 from pathlib import Path
@@ -30,7 +30,7 @@ def register(program_id):
     catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
     catalog["programs"] = [entry for entry in catalog["programs"] if entry["id"] != program_id] + [item]
     CATALOG.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (ROOT / "audio-programs.js").write_text("// Runtime catalog. Optional licensed programs are registered locally.\nwindow.CHENGSI_AUDIO_PROGRAMS = " + json.dumps(catalog["programs"], ensure_ascii=False, indent=2) + ";\n", encoding="utf-8")
+    (ROOT / "audio-programs.js").write_text("// Runtime catalog. Bundled and locally registered licensed programs.\nwindow.CHENGSI_AUDIO_PROGRAMS = " + json.dumps(catalog["programs"], ensure_ascii=False, indent=2) + ";\n", encoding="utf-8")
     print("Registered local audio: " + program_id + ". Refresh the browser.")
 
 if __name__ == "__main__":

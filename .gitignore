@@ -4,6 +4,7 @@
 __pycache__/
 .pytest_cache/
 runtime/
+output/
 *.log
 *.pid
 .env
@@ -13,7 +14,12 @@ private/
 tts-config*.json
 secrets*.json
 *.zip
-assets/audio/easy-going/
+# Publish only the prepared Easy Going playback assets, keeping source audio private.
+assets/audio/easy-going/*
+!assets/audio/easy-going/metadata.json
+!assets/audio/easy-going/layer-1.wav
+!assets/audio/easy-going/layer-2.wav
+!assets/audio/easy-going/layer-3.wav
 assets/audio/efficiency/
 assets/audio/re-life/
 assets/audio/beta-focus/

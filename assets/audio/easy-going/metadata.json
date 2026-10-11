@@ -1,0 +1,344 @@
+{
+  "version": 2,
+  "id": "easy-going",
+  "title": "Easy Going · 分层反馈",
+  "source": "Purchased Blips Easy Going WAV layers",
+  "sourceUrl": "https://blips.fm/easy-going",
+  "sourceArchiveName": "wav_Files.zip",
+  "sourceArchiveSha256": "220e0f32a28a6512207b118e6446a78cf1a7e9ba30484045d850d4823af622f5",
+  "duration": 60.0,
+  "sourceDuration": 60.0,
+  "cycleDuration": 60.0,
+  "outputSampleRate": 44100,
+  "loopMode": "native",
+  "loopStartSeconds": 0.0,
+  "loopEndSeconds": 60.0,
+  "crossfadeSeconds": 0.0,
+  "headStartSeconds": 0.0,
+  "demoStartSeconds": 0.0,
+  "feedbackProfile": "easy-going-continuous-v2",
+  "beatGrid": {
+    "bpm": 96,
+    "offsetSeconds": 0.0,
+    "beatsPerBar": 4,
+    "source": "PCM onset-grid analysis; author BPM and meter unavailable",
+    "verifiedMethod": "2048-frame positive spectral flux, 220-frame hop; all stems strongly align to 0.15625 s subdivisions and reject 64/128 BPM candidates",
+    "quarterNoteSeconds": 0.625,
+    "quantizationGroupSeconds": 2.5,
+    "loopBeats": 96,
+    "loopQuantizationGroups": 24,
+    "meterVerified": false,
+    "note": "Four-beat groups are an engineering trigger grid, not a claim that the author confirmed the meter or downbeat"
+  },
+  "tracks": [
+    {
+      "id": "layer-1",
+      "file": "layer-1.wav",
+      "channels": 2,
+      "sourceSampleRate": 44100,
+      "sampleRate": 44100,
+      "sampleWidthBytes": 2,
+      "frames": 2646000,
+      "duration": 60.0,
+      "rms": 0.05740170828465878,
+      "peak": 0.214447021484375,
+      "sha256": "e33e968cce50441baaee18b4cf294765a97c1c9d5b13ff50099a2405a1e83168",
+      "bytes": 10584044,
+      "sourceFile": "source/Track_1_Layer_1.wav",
+      "sourceArchiveEntry": "Track_1_Layer_1.wav",
+      "sourceSha256": "1567d8b764188f54d8d68c6e3a01149a0c75a3bdb05a59cf64908263000ed0c5",
+      "sourceMetrics": {
+        "rms": 0.05740229926125465,
+        "peak": 0.214447021484375,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.04888916015625,
+        "adjacentStep99_9Percentile": 0.079315185546875,
+        "seamWindowMaximumAdjacentStep": 0.088775634765625
+      },
+      "preparedMetrics": {
+        "rms": 0.05740170828465878,
+        "peak": 0.214447021484375,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.0,
+        "adjacentStep99_9Percentile": 0.079315185546875,
+        "seamWindowMaximumAdjacentStep": 0.088775634765625
+      },
+      "beatGridEvidence": {
+        "detectedOnsetCount": 283,
+        "candidates": [
+          {
+            "bpm": 64,
+            "subdivisionsPerBeat": 4,
+            "circularConcentration": 0.03601443413266836,
+            "medianOnsetDistanceSeconds": 0.07240504535147352,
+            "onsetDistance90PercentileSeconds": 0.08929563492063607
+          },
+          {
+            "bpm": 96,
+            "subdivisionsPerBeat": 4,
+            "circularConcentration": 0.9475109471483557,
+            "medianOnsetDistanceSeconds": 0.006173469387755759,
+            "onsetDistance90PercentileSeconds": 0.026352040816326836
+          },
+          {
+            "bpm": 128,
+            "subdivisionsPerBeat": 4,
+            "circularConcentration": 0.03027119364906608,
+            "medianOnsetDistanceSeconds": 0.03311862244898123,
+            "onsetDistance90PercentileSeconds": 0.04733290816326559
+          }
+        ]
+      },
+      "processing": {
+        "method": "Raised-cosine endpoint midpoint correction; no trim, resample, phase shift or normalization",
+        "windowSecondsPerEnd": 0.003,
+        "windowFramesPerEnd": 132,
+        "changedFrames": 258,
+        "correctionRms": 0.00011140707273246483
+      }
+    },
+    {
+      "id": "layer-2",
+      "file": "layer-2.wav",
+      "channels": 2,
+      "sourceSampleRate": 44100,
+      "sampleRate": 44100,
+      "sampleWidthBytes": 2,
+      "frames": 2646000,
+      "duration": 60.0,
+      "rms": 0.06893161397385962,
+      "peak": 0.19317626953125,
+      "sha256": "27f406da65be1902d8d5837b31415d79d4206882a50b86bd20739d6315cdbb14",
+      "bytes": 10584044,
+      "sourceFile": "source/Track_1_Layer_2.wav",
+      "sourceArchiveEntry": "Track_1_Layer_2.wav",
+      "sourceSha256": "04f1f1e3d4781ab3ad9c5bda44c5925f4e016db3a85c3c348ef5eb907152f79b",
+      "sourceMetrics": {
+        "rms": 0.06893137965564795,
+        "peak": 0.19317626953125,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.07049560546875,
+        "adjacentStep99_9Percentile": 0.04180917358399938,
+        "seamWindowMaximumAdjacentStep": 0.09210205078125
+      },
+      "preparedMetrics": {
+        "rms": 0.06893161397385962,
+        "peak": 0.19317626953125,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.0,
+        "adjacentStep99_9Percentile": 0.04180917358399938,
+        "seamWindowMaximumAdjacentStep": 0.092071533203125
+      },
+      "beatGridEvidence": {
+        "detectedOnsetCount": 375,
+        "candidates": [
+          {
+            "bpm": 64,
+            "subdivisionsPerBeat": 4,
+            "circularConcentration": 0.010347406309400928,
+            "medianOnsetDistanceSeconds": 0.07355583900226748,
+            "onsetDistance90PercentileSeconds": 0.08987670068027143
+          },
+          {
+            "bpm": 96,
+            "subdivisionsPerBeat": 4,
+            "circularConcentration": 0.9293027040594173,
+            "medianOnsetDistanceSeconds": 0.0049263038548730265,
+            "onsetDistance90PercentileSeconds": 0.022984693877551626
+          },
+          {
+            "bpm": 128,
+            "subdivisionsPerBeat": 4,
+            "circularConcentration": 0.009834327433105262,
+            "medianOnsetDistanceSeconds": 0.03406816893424036,
+            "onsetDistance90PercentileSeconds": 0.047455357142856876
+          }
+        ]
+      },
+      "processing": {
+        "method": "Raised-cosine endpoint midpoint correction; no trim, resample, phase shift or normalization",
+        "windowSecondsPerEnd": 0.003,
+        "windowFramesPerEnd": 132,
+        "changedFrames": 260,
+        "correctionRms": 0.00015263983086855526
+      }
+    },
+    {
+      "id": "layer-3",
+      "file": "layer-3.wav",
+      "channels": 2,
+      "sourceSampleRate": 44100,
+      "sampleRate": 44100,
+      "sampleWidthBytes": 2,
+      "frames": 2646000,
+      "duration": 60.0,
+      "rms": 0.09687354929407889,
+      "peak": 0.3946533203125,
+      "sha256": "b34b52e764d3a0a48c30da998db79af1ebd331f5f32a9e30632639d483431a0d",
+      "bytes": 10584044,
+      "sourceFile": "source/Track_1_Layer_3.wav",
+      "sourceArchiveEntry": "Track_1_Layer_3.wav",
+      "sourceSha256": "bcf7d1bf700c8a249bbe1d8969d0424a32c4c8969362a241c0d4c5c40e1f9d1a",
+      "sourceMetrics": {
+        "rms": 0.09687370344211373,
+        "peak": 0.3946533203125,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.04803466796875,
+        "adjacentStep99_9Percentile": 0.090606689453125,
+        "seamWindowMaximumAdjacentStep": 0.11102294921875
+      },
+      "preparedMetrics": {
+        "rms": 0.09687354929407889,
+        "peak": 0.3946533203125,
+        "sampleClippingCount": 0,
+        "loopBoundaryStep": 0.0,
+        "adjacentStep99_9Percentile": 0.090606689453125,
+        "seamWindowMaximumAdjacentStep": 0.111053466796875
+      },
+      "beatGridEvidence": {
+        "detectedOnsetCount": 293,
+        "candidates": [
+          {
+            "bpm": 64,
+            "subdivisionsPerBeat": 4,
+            "circularConcentration": 0.01285222006147883,
+            "medianOnsetDistanceSeconds": 0.07373724489795919,
+            "onsetDistance90PercentileSeconds": 0.08475198412698504
+          },
+          {
+            "bpm": 96,
+            "subdivisionsPerBeat": 4,
+            "circularConcentration": 0.9638477404784908,
+            "medianOnsetDistanceSeconds": 0.004314058956914835,
+            "onsetDistance90PercentileSeconds": 0.02790873015873103
+          },
+          {
+            "bpm": 128,
+            "subdivisionsPerBeat": 4,
+            "circularConcentration": 0.009944923463767416,
+            "medianOnsetDistanceSeconds": 0.034986536281179426,
+            "onsetDistance90PercentileSeconds": 0.044666241496599215
+          }
+        ]
+      },
+      "processing": {
+        "method": "Raised-cosine endpoint midpoint correction; no trim, resample, phase shift or normalization",
+        "windowSecondsPerEnd": 0.003,
+        "windowFramesPerEnd": 132,
+        "changedFrames": 258,
+        "correctionRms": 0.00010832713706356603
+      }
+    }
+  ],
+  "combinationChecks": [
+    {
+      "layers": [
+        "layer-1"
+      ],
+      "gains": [
+        1.0
+      ],
+      "rms": 0.05740170828465878,
+      "peak": 0.214447021484375,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.079315185546875,
+      "seamWindowMaximumAdjacentStep": 0.088775634765625
+    },
+    {
+      "layers": [
+        "layer-2"
+      ],
+      "gains": [
+        1.0
+      ],
+      "rms": 0.06893161397385962,
+      "peak": 0.19317626953125,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.04180917358399938,
+      "seamWindowMaximumAdjacentStep": 0.092071533203125
+    },
+    {
+      "layers": [
+        "layer-3"
+      ],
+      "gains": [
+        1.0
+      ],
+      "rms": 0.09687354929407889,
+      "peak": 0.3946533203125,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.090606689453125,
+      "seamWindowMaximumAdjacentStep": 0.111053466796875
+    },
+    {
+      "layers": [
+        "layer-1",
+        "layer-2"
+      ],
+      "gains": [
+        1.0,
+        1.0
+      ],
+      "rms": 0.08862443566812708,
+      "peak": 0.39703369140625,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.08551025390625,
+      "seamWindowMaximumAdjacentStep": 0.123992919921875
+    },
+    {
+      "layers": [
+        "layer-1",
+        "layer-3"
+      ],
+      "gains": [
+        1.0,
+        1.0
+      ],
+      "rms": 0.1118659703622718,
+      "peak": 0.592193603515625,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.11224365234375,
+      "seamWindowMaximumAdjacentStep": 0.1156005859375
+    },
+    {
+      "layers": [
+        "layer-2",
+        "layer-3"
+      ],
+      "gains": [
+        1.0,
+        1.0
+      ],
+      "rms": 0.11943213408396368,
+      "peak": 0.5693359375,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.0953369140625,
+      "seamWindowMaximumAdjacentStep": 0.110198974609375
+    },
+    {
+      "layers": [
+        "layer-1",
+        "layer-2",
+        "layer-3"
+      ],
+      "gains": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rms": 0.13115377425970612,
+      "peak": 0.754974365234375,
+      "sampleClippingCount": 0,
+      "loopBoundaryStep": 0.0,
+      "adjacentStep99_9Percentile": 0.115814208984375,
+      "seamWindowMaximumAdjacentStep": 0.116455078125
+    }
+  ],
+  "measurementNote": "PCM sample peaks and RMS only; not LUFS, true-peak certification or subjective listening approval"
+}

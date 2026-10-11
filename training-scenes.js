@@ -1,31 +1,34 @@
-/* Quiet training backgrounds. Source photographs are kept unmodified on disk.
+/* Quiet training backgrounds. Redrawn source images are kept unmodified on disk.
    Only masked sky/water texture coordinates move; image luminance, terrain and
    camera position never follow EEG, music, or time. No sound is created here. */
 (() => {
   'use strict';
   const MODES=Object.freeze([
-    {id:'lake-trees',label:'湖岸 · 微动自然景色'},
-    {id:'lake-house',label:'湖屋 · 微动自然景色'},
+    {id:'lake-trees',label:'湖岸 · 舒缓云水'},
+    {id:'lake-house',label:'湖屋 · 舒缓云水'},
     {id:'rings-still',label:'完整三圈 · 静止'},
     {id:'rings-feedback',label:'三圈 · 动态反馈（演示）'}
   ]);
   const normalize=value=>MODES.some(item=>item.id===value)?value:'lake-trees';
   const definitions={
     'lake-trees':{
-      src:'assets/visuals/training-lake-trees.jpg',
+      src:'assets/visuals/training-lake-trees.png',
       // Lower mask edges remain above the mountains, then feather inward.
-      sky:[[0,0],[1,0],[1,.259],[.94,.265],[.88,.265],[.82,.278],[.77,.301],[.70,.311],[.64,.333],[.58,.343],[.54,.36],[.49,.353],[.46,.365],[.40,.35],[.36,.34],[.30,.323],[.24,.325],[.20,.307],[.17,.302],[.14,.3],[.10,.30],[.077,.294],[.047,.308],[.026,.3],[0,.315]],
+      sky:[[0,0],[1,0],[1,.25],[.94,.25],[.88,.25],[.82,.254],[.77,.259],[.74,.29],[.70,.305],[.64,.31],[.58,.321],[.54,.325],[.49,.325],[.46,.333],[.40,.337],[.36,.342],[.30,.321],[.24,.305],[.20,.302],[.17,.295],[.14,.293],[.10,.29],[.077,.282],[.047,.282],[.026,.287],[0,.288]],
       // Water begins below all reeds, trees and shoreline.
       water:[[0,.789],[1,.789],[1,1],[0,1]]
     },
     'lake-house':{
-      src:'assets/visuals/training-lake-house.jpg',
-      sky:[[0,0],[1,0],[1,.15],[.965,.15],[.951,.32],[.93,.32],[.923,.46],[.87,.48],[.82,.478],[.75,.482],[.71,.475],[.692,.454],[.657,.428],[.40,.428],[.37,.476],[.3,.48],[.22,.49],[.13,.465],[0,.432]],
+      src:'assets/visuals/training-lake-house.png',
+      sky:[[0,0],[1,0],[1,.18],[.89,.18],[.87,.43],[.80,.45],[.73,.457],[.70,.452],[.69,.410],[.40,.410],[.37,.445],[.32,.445],[.24,.420],[.18,.395],[.12,.375],[.06,.360],[0,.360]],
       // Keep the house, foreground reeds and centre-left bushes motionless.
-      water:[[.385,.673],[.686,.673],[.697,.604],[.873,.604],[.856,.745],[.905,.777],[.899,.929],[.87,1],[.38,1],[.385,.921],[.402,.835]]
+      water:[[.410,.710],[.710,.710],[.720,.625],[.820,.625],[.815,.780],[.840,.860],[.820,1],[.430,1],[.430,.920],[.435,.835]]
     }
   };
   const entries=new Map();
+  const reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)');
+  const lowPower=(navigator.deviceMemory>0 && navigator.deviceMemory<=4) ||
+    (navigator.hardwareConcurrency>0 && navigator.hardwareConcurrency<=4);
   function maskImage(definition,width,height){
     const mask=document.createElement('canvas');mask.width=width;mask.height=height;
     const maskCtx=mask.getContext('2d');
@@ -39,17 +42,30 @@
       });layerCtx.closePath();layerCtx.fill();
       // Blur inside the conservative region only. The outer terrain never
       // receives motion; the feather removes a visible border in the sky.
-      maskCtx.save();maskCtx.globalCompositeOperation='lighter';maskCtx.filter='blur(10px)';
+      // Clip the blurred result to its original polygon. Blurring alone would
+      // leak movement into the neighbouring mountain, roof or foreground plants.
+      maskCtx.save();maskCtx.beginPath();definition[region].forEach(([x,y],index)=>{
+        if(index)maskCtx.lineTo(x*width,y*height);else maskCtx.moveTo(x*width,y*height);
+      });maskCtx.closePath();maskCtx.clip();
+      maskCtx.globalCompositeOperation='lighter';maskCtx.filter=`blur(${Math.max(8,Math.round(width*.006))}px)`;
       maskCtx.drawImage(layer,0,0);maskCtx.restore();
     }
     return mask;
   }
   function createRenderer(image,definition){
     const surface=document.createElement('canvas');
-    surface.width=Math.min(1440,image.naturalWidth);
-    surface.height=Math.round(surface.width*image.naturalHeight/image.naturalWidth);
     const gl=surface.getContext('webgl',{alpha:false,antialias:false,preserveDrawingBuffer:true,powerPreference:'low-power'});
     if(!gl)return null;
+    // Keep these redraws at their native resolution. Larger future assets are
+    // limited by the GPU and a device-sensitive pixel budget rather than 1440px.
+    const textureLimit=gl.getParameter(gl.MAX_TEXTURE_SIZE);
+    const viewportLimit=gl.getParameter(gl.MAX_VIEWPORT_DIMS);
+    const pixelBudget=lowPower?1600000:4000000;
+    const resolutionScale=Math.min(1,textureLimit/image.naturalWidth,textureLimit/image.naturalHeight,
+      viewportLimit[0]/image.naturalWidth,viewportLimit[1]/image.naturalHeight,
+      Math.sqrt(pixelBudget/(image.naturalWidth*image.naturalHeight)));
+    surface.width=Math.max(1,Math.round(image.naturalWidth*resolutionScale));
+    surface.height=Math.max(1,Math.round(image.naturalHeight*resolutionScale));
     function shader(type,source){
       const result=gl.createShader(type);gl.shaderSource(result,source);gl.compileShader(result);
       if(!gl.getShaderParameter(result,gl.COMPILE_STATUS))throw new Error('Scene shader unavailable');
@@ -59,22 +75,34 @@
       const program=gl.createProgram();
       gl.attachShader(program,shader(gl.VERTEX_SHADER,'attribute vec2 position; varying vec2 uv; void main(){ uv=vec2((position.x+1.0)*0.5,(1.0-position.y)*0.5); gl_Position=vec4(position,0.0,1.0); }'));
       gl.attachShader(program,shader(gl.FRAGMENT_SHADER,`
-        precision mediump float;
+        #ifdef GL_FRAGMENT_PRECISION_HIGH
+          precision highp float;
+        #else
+          precision mediump float;
+        #endif
         varying vec2 uv;
         uniform sampler2D photograph;
         uniform sampler2D regions;
-        uniform vec2 pixels;
         uniform float seconds;
         void main(){
-          vec2 area=texture2D(regions,uv).rg;
-          // Cloud drift: at most 5 original-image pixels over an 80–160 s arc.
-          // Water: <1 px, smooth long waves, no sparkle or brightness modulation.
-          vec2 cloud=vec2(sin(seconds*.039+uv.y*1.3)*5.0,sin(seconds*.027+uv.x*2.0)*.8);
-          float depth=smoothstep(.66,1.0,uv.y);
-          vec2 water=vec2(sin(uv.y*70.0-seconds*.24+uv.x*3.0)*.85,
-            sin(uv.y*48.0+seconds*.19+uv.x*7.0)*.38)*depth;
-          vec2 offset=(cloud*area.r+water*area.g)/pixels;
-          gl_FragColor=texture2D(photograph,clamp(uv+offset,vec2(.0005),vec2(.9995)));
+          // Threshold the clipped blur to feather inward to zero at its edge.
+          vec2 area=smoothstep(vec2(.5),vec2(.98),texture2D(regions,uv).rg);
+          float edgeFade=smoothstep(0.0,.04,uv.x)*smoothstep(0.0,.04,1.0-uv.x);
+          // Approximately 3 source pixels/second at 1606px wide at the start;
+          // a slow 84-second arc makes cloud drift visible without a camera move.
+          vec2 cloud=vec2(sin(seconds*.075)*.024,sin(seconds*.05)*.0012)*edgeFade;
+          // Moving ripples repeat over 5-7 seconds, with no sparkle, flashes or
+          // brightness changes. Their strength rises gently toward the viewer.
+          float depth=.35+.65*smoothstep(.60,1.0,uv.y);
+          vec2 water=vec2(sin(uv.y*150.0-seconds*1.15+uv.x*3.0)*.0042,
+            sin(uv.y*105.0+seconds*.90+uv.x*5.0)*.0018)*depth*edgeFade;
+          vec2 offset=cloud*area.r+water*area.g;
+          // Both the destination and sampled point must stay in their region.
+          // This also guards sloping ridgelines from a horizontal cloud shift.
+          vec2 sourceArea=smoothstep(vec2(.5),vec2(.98),
+            texture2D(regions,clamp(uv+offset,vec2(0.0),vec2(1.0))).rg);
+          offset=cloud*min(area.r,sourceArea.r)+water*min(area.g,sourceArea.g);
+          gl_FragColor=texture2D(photograph,clamp(uv+offset,vec2(0.0),vec2(1.0)));
         }
       `));
       gl.linkProgram(program);
@@ -90,14 +118,29 @@
         gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,source);
         gl.uniform1i(gl.getUniformLocation(program,name),unit);
       }
-      texture(image,0,'photograph');texture(maskImage(definition,surface.width,surface.height),1,'regions');
-      gl.uniform2f(gl.getUniformLocation(program,'pixels'),image.naturalWidth,image.naturalHeight);
+      // Oversized source images must also be reduced before texture upload.
+      let photograph=image;
+      if(resolutionScale<1){
+        photograph=document.createElement('canvas');photograph.width=surface.width;photograph.height=surface.height;
+        photograph.getContext('2d').drawImage(image,0,0,photograph.width,photograph.height);
+      }
+      texture(photograph,0,'photograph');texture(maskImage(definition,surface.width,surface.height),1,'regions');
       const seconds=gl.getUniformLocation(program,'seconds');
+      let renderedTime=null,nextFrameTime=null;
+      const frameInterval=1/(lowPower?24:30);
       surface.addEventListener('webglcontextlost',event=>event.preventDefault());
       return {surface,render(time){
         if(gl.isContextLost())return false;
+        if(time===renderedTime)return true;
+        if(renderedTime!==null && time<renderedTime)nextFrameTime=null;
+        if(nextFrameTime!==null && time+1e-7<nextFrameTime)return true;
         gl.viewport(0,0,surface.width,surface.height);gl.uniform1f(seconds,time);
-        gl.drawArrays(gl.TRIANGLES,0,3);return true;
+        gl.drawArrays(gl.TRIANGLES,0,3);renderedTime=time;
+        // Keep a fixed cadence and carry any fractional interval forward. A
+        // 30fps caller can then supply 24fps rather than dropping to 15fps.
+        nextFrameTime=nextFrameTime===null?time+frameInterval:
+          nextFrameTime+(Math.floor((time-nextFrameTime+1e-7)/frameInterval)+1)*frameInterval;
+        return true;
       }};
     }catch(error){return null;}
   }
@@ -113,7 +156,7 @@
     mode=normalize(mode);if(!definitions[mode])return false;
     const elapsed=lastTime===null?0:Math.max(0,Math.min(.1,(now-lastTime)/1000));lastTime=now;
     // A paused phase freezes the current frame without returning to frame zero.
-    if(motion)timeline+=elapsed;
+    if(motion && !reducedMotion?.matches)timeline+=elapsed;
     currentMode=mode;
     const entry=load(mode);
     if(!entry?.loaded)return false;

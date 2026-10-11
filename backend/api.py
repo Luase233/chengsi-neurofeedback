@@ -77,7 +77,7 @@ def create_app(data_dir=None, service=None, lan=False, port=8768):
         yield
         await sessions.shutdown()
 
-    app = FastAPI(title="Chengsi local EEG backend", version="1.1.0", lifespan=lifespan, docs_url=None, redoc_url=None)
+    app = FastAPI(title="Chengsi local EEG backend", version="1.1.1", lifespan=lifespan, docs_url=None, redoc_url=None)
     app.state.sessions = sessions
     app.state.network = access
     app.add_middleware(LocalOnlyMiddleware, access=access)
@@ -88,7 +88,7 @@ def create_app(data_dir=None, service=None, lan=False, port=8768):
 
     @app.get("/api/health")
     async def health():
-        return {"service": "chengsi-backend", "api_version": "1", "version": "1.1.0", "lan_enabled": access.lan, "status": "ok", "capture_backend": "brainflow-native-ble", "active_session_id": sessions.state["session_id"], "phase": sessions.state["phase"], "reconnect_policy": sessions.reconnect_policy}
+        return {"service": "chengsi-backend", "api_version": "1", "version": "1.1.1", "lan_enabled": access.lan, "status": "ok", "capture_backend": "brainflow-native-ble", "active_session_id": sessions.state["session_id"], "phase": sessions.state["phase"], "reconnect_policy": sessions.reconnect_policy}
 
     @app.get("/api/connection")
     async def connection():

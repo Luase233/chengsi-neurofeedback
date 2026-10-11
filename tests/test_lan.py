@@ -41,7 +41,7 @@ def test_loopback_remains_default_and_peer_cannot_spoof_operator(tmp_path):
     app = create_app(tmp_path)
     with TestClient(app, base_url=LOCAL) as local:
         health = local.get("/api/health").json()
-        assert health["api_version"] == "1" and health["version"] == "1.1.0"
+        assert health["api_version"] == "1" and health["version"] == "1.1.1"
         assert health["lan_enabled"] is False
         assert local.get("/api/connection").json()["participant_urls"] == []
         assert local.post("/api/pair", json={"token": app.state.network.pair_token}).status_code == 403
