@@ -6,6 +6,7 @@ import io
 from contextlib import asynccontextmanager
 import json
 from pathlib import Path
+import tempfile
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
@@ -15,6 +16,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from .models import CommandRequest, SessionRequest
 from .network import COOKIE_NAME, LocalOnlyMiddleware, NetworkAccess
 from .history import participant_history
+from .imports import MAX_ARCHIVE_BYTES, SessionImportError, prepare_import
 from .providers import discover_muse
 from .sessions import SessionConflict, SessionService
 from .training_plan import plan_snapshot
@@ -77,7 +79,7 @@ def create_app(data_dir=None, service=None, lan=False, port=8768):
         yield
         await sessions.shutdown()
 
-    app = FastAPI(title="Chengsi local EEG backend", version="1.1.1", lifespan=lifespan, docs_url=None, redoc_url=None)
+    app = FastAPI(title="Chengsi local EEG backend", version="1.2.0", lifespan=lifespan, docs_url=None, redoc_url=None)
     app.state.sessions = sessions
     app.state.network = access
     app.add_middleware(LocalOnlyMiddleware, access=access)
@@ -88,7 +90,7 @@ def create_app(data_dir=None, service=None, lan=False, port=8768):
 
     @app.get("/api/health")
     async def health():
-        return {"service": "chengsi-backend", "api_version": "1", "version": "1.1.1", "lan_enabled": access.lan, "status": "ok", "capture_backend": "brainflow-native-ble", "active_session_id": sessions.state["session_id"], "phase": sessions.state["phase"], "reconnect_policy": sessions.reconnect_policy}
+        return {"service": "chengsi-backend", "api_version": "1", "version": "1.2.0", "lan_enabled": access.lan, "status": "ok", "capture_backend": "brainflow-native-ble", "active_session_id": sessions.state["session_id"], "phase": sessions.state["phase"], "reconnect_policy": sessions.reconnect_policy}
 
     @app.get("/api/connection")
     async def connection():
@@ -190,6 +192,69 @@ def create_app(data_dir=None, service=None, lan=False, port=8768):
     @app.get("/api/sessions")
     async def stored_sessions():
         return {"sessions": list_sessions(sessions_root, sessions.state["session_id"])}
+
+    @app.post("/api/sessions/import")
+    async def import_session(http_request: Request):
+        if not http_request.state.local_operator:
+            raise HTTPException(403, "只有本机工作人员可以导入会话")
+        def active_conflict():
+            if sessions.state["phase"] not in {"idle", "completed", "error"}:
+                raise SessionImportError("请先结束当前会话，再导入记录", 409, "active_session")
+        prepared = None
+        try:
+            async with sessions.lock:
+                active_conflict()
+            if http_request.headers.get("content-type", "").split(";", 1)[0].strip().lower() != "application/zip":
+                raise SessionImportError("请直接上传 ZIP 文件", 415, "unsupported_content_type")
+            declared = http_request.headers.get("content-length")
+            if declared is not None:
+                try:
+                    declared = int(declared)
+                except ValueError:
+                    raise SessionImportError("上传长度无效")
+                if declared < 0:
+                    raise SessionImportError("上传长度无效")
+                if declared > MAX_ARCHIVE_BYTES:
+                    raise SessionImportError("ZIP 超过 64 MiB", 413, "archive_too_large")
+            with tempfile.SpooledTemporaryFile(max_size=4 * 1024 * 1024) as upload:
+                received = 0
+                async for chunk in http_request.stream():
+                    received += len(chunk)
+                    if received > MAX_ARCHIVE_BYTES:
+                        raise SessionImportError("ZIP 超过 64 MiB", 413, "archive_too_large")
+                    upload.write(chunk)
+                if declared is not None and received != declared:
+                    raise SessionImportError("上传文件不完整")
+                preparation = asyncio.create_task(asyncio.to_thread(prepare_import, upload, sessions_root))
+                try:
+                    prepared = await asyncio.shield(preparation)
+                except asyncio.CancelledError:
+                    # Keep the upload open until validation finishes. A cancelled
+                    # request never publishes, but must clean its staged result.
+                    try:
+                        prepared = await preparation
+                    except Exception:
+                        # prepare_import already removes its temporary directory
+                        # on failure; preserve the original request cancellation.
+                        pass
+                    raise
+            async with sessions.lock:
+                active_conflict()
+                publication = asyncio.create_task(asyncio.to_thread(prepared.publish, sessions_root))
+                try:
+                    result = await asyncio.shield(publication)
+                except asyncio.CancelledError:
+                    # Keep the state-machine lock and temporary files alive until
+                    # the complete publish/rollback finishes after disconnection.
+                    await publication
+                    raise
+            return JSONResponse(result, headers={"Cache-Control": "no-store"})
+        except SessionImportError as error:
+            return JSONResponse({"detail": str(error), "code": error.code}, status_code=error.status_code,
+                                headers={"Cache-Control": "no-store"})
+        finally:
+            if prepared is not None:
+                await asyncio.to_thread(prepared.close)
 
     @app.get("/api/participant-history")
     async def history(participant_id: str, mode: str = "live"):

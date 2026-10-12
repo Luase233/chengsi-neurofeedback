@@ -243,16 +243,17 @@
       })();
       return this.historyRequest;
     }
-    async setMode(mode) {
-      if (this.busy || !modes[mode]) { this.q('.session-mode').value = this.mode; return; }
-      if (this.sessionId && !['completed','idle'].includes(this.snapshot?.phase)) {
+    async setMode(mode, { finishActive=true } = {}) {
+      if (this.busy || !modes[mode] || (!finishActive && (this.otherSession || !['idle','completed','error'].includes(this.snapshot?.phase || 'idle')))) { this.q('.session-mode').value = this.mode; return false; }
+      if (finishActive && this.sessionId && !['completed','idle'].includes(this.snapshot?.phase)) {
         const previous = this.mode;
-        try { await this.command('finish', true); } catch (_) { this.q('.session-mode').value = previous; return; }
+        try { await this.command('finish', true); } catch (_) { this.q('.session-mode').value = previous; return false; }
       }
       window.CalibrationCues?.cancel();
       this.mode = mode; this.snapshot = null; this.sessionId = null; this.error = ''; this.renderKey = '';
       this.emit();
       if (mode === 'replay') await this.loadSessions(); else this.loadPlan();
+      return true;
     }
     async loadSessions() {
       try { const data = await this.request('/api/sessions'); this.sessions = data.sessions || []; if (!this.form.replay && this.sessions.length) this.form.replay = this.sessions[0].session_id; }

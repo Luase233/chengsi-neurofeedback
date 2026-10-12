@@ -6,6 +6,13 @@ html[data-view=operator] #resonance-training .operator-inspect h2{font:600 22px/
 html[data-view=operator] #resonance-training .operator-inspect p{color:#657388;font-size:14px;line-height:1.8}
 html[data-view=operator] #resonance-training .operator-inspect .session-chart{background:#fff;border:0;padding:0}
 html[data-view=operator] #resonance-training .operator-inspect .session-chart svg{height:auto;min-height:200px}
+html[data-view=operator] #resonance-training .operator-import-hint{margin:0 14px 8px;color:#69788c;font-size:12px;line-height:1.6}
+html[data-view=operator] #resonance-training .operator-import-success{font-weight:650;color:#187b56}
+html[data-view=operator] #resonance-training .operator-import-summary{display:grid;gap:16px;padding:20px;margin:18px 0;background:#f5f8fc;border-radius:8px}
+html[data-view=operator] #resonance-training .operator-import-summary>div{display:grid;grid-template-columns:100px minmax(0,1fr);gap:14px;font-size:14px;line-height:1.7}
+html[data-view=operator] #resonance-training .operator-import-summary dt{color:#657388}
+html[data-view=operator] #resonance-training .operator-import-summary dd{margin:0;color:#202a38;overflow-wrap:anywhere}
+html[data-view=operator] #resonance-training .operator-import-actions{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 12px}
 html[data-view=operator] #resonance-training .operator-records{overflow:auto}
 html[data-view=operator] #resonance-training .operator-records table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
 html[data-view=operator] #resonance-training .operator-records th,html[data-view=operator] #resonance-training .operator-records td{text-align:left;padding:14px 10px;border-bottom:1px solid #e6ebf1;white-space:nowrap}

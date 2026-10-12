@@ -1,40 +1,33 @@
-﻿param([ValidateRange(1, 65535)][int]$Port = 8768)
+param([ValidateRange(1, 65535)][int]$Port = 8768)
 $ErrorActionPreference = 'Stop'
-$pidFile = Join-Path $PSScriptRoot 'preview-server.pid'
-if (-not (Test-Path -LiteralPath $pidFile)) { Write-Output 'No managed server.'; return }
-$savedProcessId = (Get-Content -LiteralPath $pidFile -Raw).Trim()
-if ($savedProcessId -notmatch '^\d+$') { throw 'Invalid saved PID. No process was stopped.' }
-$previewProcessId = [int]$savedProcessId
-$serverScript = Join-Path $PSScriptRoot 'server.py'
-$previewProcess = Get-CimInstance Win32_Process -Filter "ProcessId = $previewProcessId" -ErrorAction SilentlyContinue
-if ($previewProcess) {
-    if ($previewProcess.CommandLine -notmatch [regex]::Escape($serverScript)) {
-        throw 'The saved process id belongs to a different command. No process was stopped.'
-    }
-    if ($previewProcess.CommandLine -notmatch ('--port\s+' + $Port + '(?:\s|$)')) {
-        throw 'The requested port does not match the managed process. No process was stopped. Check -Port.'
-    }
-    $listener = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue
-    if ($listener -and $listener.OwningProcess -notcontains $previewProcessId) {
-        $listenerIds = @($listener | Select-Object -ExpandProperty OwningProcess -Unique)
-        if ($listenerIds.Count -ne 1) { throw 'The requested port has unexpected owners. No process was stopped.' }
-        $listenerProcess = Get-CimInstance Win32_Process -Filter "ProcessId = $($listenerIds[0])"
-        if ($listenerProcess.ParentProcessId -ne $previewProcessId -or $listenerProcess.CommandLine -notmatch [regex]::Escape($serverScript)) {
-            throw 'The requested port does not belong to the managed process. Check -Port before stopping.'
+$demoRoot = [IO.Path]::GetFullPath($PSScriptRoot)
+$serverScript = Join-Path $demoRoot 'server.py'
+$managedPidFile = Join-Path $demoRoot 'preview-server.pid'
+$managedStateFile = Join-Path $demoRoot 'runtime\preview-server.json'
+. (Join-Path $demoRoot 'launcher-process.ps1')
+$launcherLock = Enter-ChengsiLauncherLock
+try {
+    $managed = Get-ChengsiManagedServer
+    if ($managed) {
+        if ($PSBoundParameters.ContainsKey('Port') -and $Port -ne $managed.port) { throw "The requested port does not match this project's managed server. No process was stopped." }
+        $actualPort = $managed.port
+        # Send finish only when this project's process owns the actual listener.
+        if (Get-ChengsiListener -ProcessId $managed.pid -ActualPort $actualPort) {
+            $current = $null
+            try { $current = Invoke-RestMethod -Uri "http://127.0.0.1:$actualPort/api/state" -TimeoutSec 3 } catch {}
+            if ($current.session_id -and $current.phase -notin @('completed', 'idle', 'error')) {
+                $body = @{ command = 'finish'; command_id = [guid]::NewGuid().ToString() } | ConvertTo-Json
+                Invoke-RestMethod -Uri "http://127.0.0.1:$actualPort/api/sessions/$($current.session_id)/commands" -Method Post -ContentType 'application/json' -Body $body -TimeoutSec 10 | Out-Null
+            }
         }
-        $previewProcessId = [int]$listenerProcess.ProcessId
-    }
-    $current = $null
-    try { $current = Invoke-RestMethod -Uri "http://127.0.0.1:$Port/api/state" -TimeoutSec 3 } catch {}
-    if ($current.session_id -and $current.phase -notin @('completed', 'idle')) {
-        $body = @{ command = 'finish'; command_id = [guid]::NewGuid().ToString() } | ConvertTo-Json
-        Invoke-RestMethod -Uri "http://127.0.0.1:$Port/api/sessions/$($current.session_id)/commands" -Method Post -ContentType 'application/json' -Body $body -TimeoutSec 10 | Out-Null
-    }
-    Stop-Process -Id $previewProcessId
-    for ($attempt = 0; $attempt -lt 30; $attempt++) {
-        if (-not (Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue)) { break }
-        Start-Sleep -Milliseconds 100
-    }
-}
-Remove-Item -LiteralPath $pidFile
-Write-Output 'Managed server stopped.'
+        $process = Get-ChengsiProcess -ProcessId $managed.pid
+        if ($process -and (Get-ChengsiCreatedAt $process) -eq $managed.started_at) { Stop-Process -Id $managed.pid }
+        for ($attempt = 0; $attempt -lt 30; $attempt++) {
+            if (-not (Get-Process -Id $managed.pid -ErrorAction SilentlyContinue)) { break }
+            Start-Sleep -Milliseconds 100
+        }
+        if (Get-Process -Id $managed.pid -ErrorAction SilentlyContinue) { throw 'Shutdown is still in progress. The managed state was kept; retry shortly.' }
+        Write-Output "Managed server stopped (port $actualPort)."
+    } else { Write-Output 'No running managed server.' }
+    foreach ($file in @($managedPidFile, $managedStateFile)) { if (Test-Path -LiteralPath $file) { Remove-Item -LiteralPath $file } }
+} finally { $launcherLock.Dispose() }

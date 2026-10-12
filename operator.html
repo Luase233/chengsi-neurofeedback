@@ -41,6 +41,9 @@
         </ol>
         <div class="operator-nav-secondary">
           <button type="button" data-workspace-view="history"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2zM5 16h14M9 8h6M9 11h5"/></svg>训练记录</button>
+          <button type="button" data-import-data><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4"/></svg><span>导入数据</span></button>
+          <input type="file" data-import-file accept=".zip,application/zip" aria-label="选择导出的训练记录 ZIP" hidden>
+          <p class="operator-import-hint" data-import-hint>支持普通记录和含 EDF 的导出 ZIP。</p>
           <button type="button" data-workspace-view="settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></svg>设置</button>
         </div>
         <div class="operator-nav-foot"><span>当前被试</span><strong class="operator-participant-label">尚未开始</strong></div>
